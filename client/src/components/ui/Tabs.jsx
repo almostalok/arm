@@ -1,14 +1,11 @@
+import React from "react";
 import { cn } from "../../lib/utils";
 
-/**
- * Segmented pill tabs (matches the "Monthly / Annually" toggle in the reference).
- * Controlled: pass `value`, `onChange`, and an array of {value,label} tabs.
- */
 export function Tabs({ tabs, value, onChange, className }) {
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1 rounded-full bg-surface-muted p-1",
+        "inline-flex items-center gap-1 rounded-xl bg-slate-900/90 border border-slate-800 p-1 select-none",
         className
       )}
     >
@@ -19,10 +16,10 @@ export function Tabs({ tabs, value, onChange, className }) {
             key={t.value}
             onClick={() => onChange(t.value)}
             className={cn(
-              "rounded-full px-4 py-1.5 text-sm font-medium transition-all",
+              "rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer",
               active
-                ? "bg-brand-600 text-white shadow-sm"
-                : "text-ink-soft hover:text-ink"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30 border border-indigo-400/20"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
             )}
           >
             {t.label}
