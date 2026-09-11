@@ -1,153 +1,118 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Mail,
   Phone,
   Building2,
-  Sparkles,
   Pencil,
   Trash2,
-  Wand2,
-  AlertCircle,
+  Send,
+  Zap,
+  CheckCircle2,
+  AlertTriangle,
+  Calendar,
 } from "lucide-react";
-import { Drawer, Button, Badge, Avatar, Spinner } from "../ui";
-import { AiEmailDialog } from "../ai/AiEmailDialog";
-import { aiApi } from "../../lib/services";
+import { Drawer, Button, Badge, Avatar, StatusPill, NumberTicker } from "../ui";
+import { EmailComposerDialog } from "../outreach/EmailComposerDialog";
+import { LeadScoringCard } from "../outreach/LeadScoringCard";
 import { currency, shortDate } from "../../lib/format";
 import { STAGE_STYLES, PRIORITY_STYLES } from "../../lib/constants";
 import { cn } from "../../lib/utils";
-import { toast } from "sonner";
 
-/** Detailed slide-over for a single lead: info, AI summary, email generator. */
 export function LeadDrawer({ open, onClose, lead, onEdit, onDelete }) {
-  const [summary, setSummary] = useState(null);
-  const [loadingSummary, setLoadingSummary] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
 
   if (!lead) return null;
   const stage = STAGE_STYLES[lead.status] || STAGE_STYLES.New;
 
-  const runSummary = async () => {
-    setLoadingSummary(true);
-    try {
-      const res = await aiApi.leadSummary({ leadId: lead._id });
-      setSummary(res);
-    } catch (err) {
-      toast.error(err.message || "Could not summarize lead");
-    } finally {
-      setLoadingSummary(false);
-    }
-  };
-
-  const riskTone =
-    summary?.riskScore >= 66
-      ? "text-rose-600"
-      : summary?.riskScore >= 33
-      ? "text-amber-600"
-      : "text-brand-700";
-
   return (
     <>
-      <Drawer open={open} onClose={onClose} title="Lead details">
-        {/* Header */}
-        <div className="flex items-center gap-4">
-          <Avatar name={lead.name} size="lg" />
-          <div className="min-w-0">
-            <h2 className="truncate text-xl font-bold text-ink">{lead.name}</h2>
-            <p className="truncate text-sm text-ink-soft">{lead.company || "—"}</p>
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Badge className={stage.badge} dot={stage.dot}>
-            {lead.status}
-          </Badge>
-          <Badge className={PRIORITY_STYLES[lead.priority]}>{lead.priority} priority</Badge>
-          <Badge>{lead.source}</Badge>
-        </div>
-
-        {/* Value */}
-        <div className="mt-5 rounded-2xl bg-surface p-4 shadow-[var(--shadow-soft)]">
-          <p className="text-xs uppercase tracking-wide text-ink-soft">Deal value</p>
-          <p className="mt-1 text-2xl font-bold text-ink">{currency(lead.value)}</p>
-        </div>
-
-        {/* Contact info */}
-        <div className="mt-4 space-y-2">
-          <InfoRow icon={Mail} value={lead.email} href={`mailto:${lead.email}`} />
-          <InfoRow icon={Phone} value={lead.phone} href={`tel:${lead.phone}`} />
-          <InfoRow icon={Building2} value={lead.company} />
-        </div>
-
-        {lead.notes && (
-          <div className="mt-4 rounded-2xl bg-surface p-4 shadow-[var(--shadow-soft)]">
-            <p className="text-xs font-medium uppercase tracking-wide text-ink-soft">
-              Notes
-            </p>
-            <p className="mt-1.5 text-sm leading-relaxed text-ink">{lead.notes}</p>
-          </div>
-        )}
-
-        {/* AI summary */}
-        <div className="mt-5 rounded-2xl border border-brand-100 bg-brand-50/60 p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm font-semibold text-brand-800">
-              <Sparkles className="h-4 w-4" /> AI Lead Summary
+      <Drawer open={open} onClose={onClose} title="Opportunity & Account Profile">
+        <div className="space-y-5">
+          {/* Header */}
+          <div className="flex items-center gap-4">
+            <Avatar name={lead.company || lead.name} size="lg" />
+            <div className="min-w-0">
+              <h2 className="truncate text-lg font-bold text-white font-display">{lead.name}</h2>
+              <p className="truncate text-xs text-slate-400 font-medium">{lead.company || "Direct Account"}</p>
             </div>
-            {!summary && (
-              <Button size="sm" variant="subtle" onClick={runSummary} loading={loadingSummary}>
-                Analyze
-              </Button>
-            )}
           </div>
 
-          {loadingSummary && <Spinner className="p-4" />}
+          {/* Status Pills */}
+          <div className="flex flex-wrap gap-2">
+            <Badge className={stage.badge} dot={stage.dot}>
+              {lead.status}
+            </Badge>
+            <Badge className={PRIORITY_STYLES[lead.priority]}>{lead.priority} priority</Badge>
+            <Badge tone="indigo">{lead.source}</Badge>
+          </div>
 
-          {summary && (
-            <div className="mt-3 space-y-3 animate-fade-up">
-              <p className="text-sm leading-relaxed text-ink">{summary.summary}</p>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-xl bg-surface p-3 text-center">
-                  <p className="text-xs text-ink-soft">Risk score</p>
-                  <p className={cn("text-lg font-bold", riskTone)}>
-                    {summary.riskScore}
-                    <span className="text-sm text-ink-soft">/100</span>
-                  </p>
-                </div>
-                <div className="rounded-xl bg-surface p-3 text-center">
-                  <p className="text-xs text-ink-soft">Suggested priority</p>
-                  <p className="text-lg font-bold text-ink">{summary.suggestedPriority}</p>
-                </div>
+          {/* Value & Stage Metric Card */}
+          <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-slate-950/70 border border-slate-800">
+            <div>
+              <p className="text-[10px] uppercase font-semibold tracking-wider text-slate-400">Deal Value</p>
+              <p className="mt-1 text-xl font-bold text-white font-display">{currency(lead.value)}</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase font-semibold tracking-wider text-slate-400">Lead Health</p>
+              <div className="flex items-baseline gap-1 mt-1">
+                <span className="text-xl font-bold text-indigo-400 font-display">{lead.leadScore || 85}</span>
+                <span className="text-[10px] text-slate-500 font-mono">/100</span>
               </div>
-              <div className="flex items-start gap-2 rounded-xl bg-surface p-3">
-                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
-                <p className="text-sm text-ink">
-                  <span className="font-medium">Next best action: </span>
-                  {summary.nextBestAction}
-                </p>
-              </div>
+            </div>
+          </div>
+
+          {/* Contact info */}
+          <div className="space-y-1.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
+            <InfoRow icon={Mail} value={lead.email} href={`mailto:${lead.email}`} />
+            <InfoRow icon={Phone} value={lead.phone} href={`tel:${lead.phone}`} />
+            <InfoRow icon={Building2} value={lead.company} />
+          </div>
+
+          {/* Notes */}
+          {lead.notes && (
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                Deal Notes & Context
+              </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-slate-200">{lead.notes}</p>
             </div>
           )}
-        </div>
 
-        {/* Actions */}
-        <div className="mt-5 grid grid-cols-2 gap-2">
-          <Button variant="outline" onClick={() => setEmailOpen(true)} className="col-span-2">
-            <Wand2 className="h-4 w-4" /> Generate AI email
-          </Button>
-          <Button variant="secondary" onClick={() => onEdit(lead)}>
-            <Pencil className="h-4 w-4" /> Edit
-          </Button>
-          <Button variant="danger" onClick={() => onDelete(lead)}>
-            <Trash2 className="h-4 w-4" /> Delete
-          </Button>
-        </div>
+          {/* Quantitative Lead Scoring & Signals */}
+          <LeadScoringCard
+            score={lead.leadScore || 85}
+            buyingStage={lead.buyingStage || (lead.status === "Won" ? "Customer" : "Evaluation")}
+            onActionClick={() => setEmailOpen(true)}
+          />
 
-        <p className="mt-4 text-center text-xs text-ink-soft">
-          Added {shortDate(lead.createdAt)}
-        </p>
+          {/* Actions */}
+          <div className="grid grid-cols-2 gap-2 pt-2">
+            <Button
+              variant="primary"
+              onClick={() => setEmailOpen(true)}
+              className="col-span-2 gap-1.5"
+            >
+              <Send className="h-4 w-4" /> Launch Outreach Playbook
+            </Button>
+            <Button variant="secondary" onClick={() => onEdit(lead)} className="gap-1.5">
+              <Pencil className="h-4 w-4" /> Edit Details
+            </Button>
+            <Button variant="danger" onClick={() => onDelete(lead)} className="gap-1.5">
+              <Trash2 className="h-4 w-4" /> Delete
+            </Button>
+          </div>
+
+          <p className="text-center text-[11px] text-slate-500 font-mono">
+            Created on {shortDate(lead.createdAt)}
+          </p>
+        </div>
       </Drawer>
 
-      <AiEmailDialog open={emailOpen} onClose={() => setEmailOpen(false)} lead={lead} />
+      <EmailComposerDialog
+        open={emailOpen}
+        onClose={() => setEmailOpen(false)}
+        lead={lead}
+      />
     </>
   );
 }
@@ -155,9 +120,9 @@ export function LeadDrawer({ open, onClose, lead, onEdit, onDelete }) {
 function InfoRow({ icon: Icon, value, href }) {
   if (!value) return null;
   const content = (
-    <div className="flex items-center gap-3 rounded-xl px-1 py-1.5 text-sm text-ink transition hover:text-brand-700">
-      <Icon className="h-4 w-4 text-ink-soft" />
-      <span className="truncate">{value}</span>
+    <div className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-xs text-slate-300 transition-colors hover:text-white hover:bg-slate-800/60">
+      <Icon className="h-4 w-4 text-slate-400 shrink-0" />
+      <span className="truncate font-medium">{value}</span>
     </div>
   );
   return href ? (

@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutGrid,
@@ -8,36 +9,32 @@ import {
   CalendarCheck,
   Settings,
   LogOut,
-  Sparkles,
 } from "lucide-react";
+import { Logo } from "../ui";
 import { cn } from "../../lib/utils";
 import { useAuth } from "../../context/AuthContext";
 
-/* Primary navigation — icon + label rail, matching the reference sidebar. */
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutGrid, end: true },
   { to: "/leads", label: "Leads", icon: Users },
   { to: "/contacts", label: "Contacts", icon: Contact2 },
   { to: "/pipeline", label: "Pipeline", icon: KanbanSquare },
   { to: "/notes", label: "Notes", icon: StickyNote },
-  { to: "/tasks", label: "Follow-ups", icon: CalendarCheck },
+  { to: "/tasks", label: "Tasks", icon: CalendarCheck },
 ];
 
 export function Sidebar({ onNavigate }) {
   const { logout } = useAuth();
 
   return (
-    <aside className="flex h-full w-64 flex-col bg-surface border-r border-line">
+    <aside className="flex h-full w-64 flex-col bg-slate-900 border-r border-slate-800 shadow-2xl">
       {/* Brand */}
-      <div className="flex items-center gap-2.5 px-6 py-6">
-        <div className="brand-gradient flex h-9 w-9 items-center justify-center rounded-xl text-white">
-          <Sparkles className="h-5 w-5" />
-        </div>
-        <span className="font-display text-lg font-bold text-ink">TTP CRM</span>
+      <div className="flex items-center px-6 py-6 border-b border-slate-800">
+        <Logo size="md" />
       </div>
 
       {/* Nav links */}
-      <nav className="flex-1 space-y-1 px-3">
+      <nav className="flex-1 space-y-1.5 p-4">
         {NAV.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}
@@ -46,41 +43,41 @@ export function Sidebar({ onNavigate }) {
             onClick={onNavigate}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition",
+                "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150",
                 isActive
-                  ? "bg-brand-50 text-brand-700"
-                  : "text-ink-soft hover:bg-surface-muted hover:text-ink"
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/30 border border-indigo-400/20"
+                  : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
               )
             }
           >
-            <Icon className="h-[18px] w-[18px]" />
+            <Icon className="h-4 w-4" />
             {label}
           </NavLink>
         ))}
       </nav>
 
       {/* Footer actions */}
-      <div className="space-y-1 border-t border-line p-3">
+      <div className="space-y-1 border-t border-slate-800 p-4">
         <NavLink
           to="/settings"
           onClick={onNavigate}
           className={({ isActive }) =>
             cn(
-              "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition",
+              "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors",
               isActive
-                ? "bg-brand-50 text-brand-700"
-                : "text-ink-soft hover:bg-surface-muted hover:text-ink"
+                ? "bg-indigo-600/20 text-white border border-indigo-500/30"
+                : "text-slate-400 hover:bg-slate-800 hover:text-white"
             )
           }
         >
-          <Settings className="h-[18px] w-[18px]" />
-          Settings
+          <Settings className="h-4 w-4" />
+          Workspace Settings
         </NavLink>
         <button
           onClick={logout}
-          className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-ink-soft transition hover:bg-rose-50 hover:text-rose-600"
+          className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-400 transition-colors hover:bg-rose-500/10 hover:text-rose-400 cursor-pointer"
         >
-          <LogOut className="h-[18px] w-[18px]" />
+          <LogOut className="h-4 w-4" />
           Log out
         </button>
       </div>

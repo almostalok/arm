@@ -1,14 +1,10 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Dialog, Button, Field, Input, Select, Textarea } from "../ui";
 import { leadsApi } from "../../lib/services";
 import { LEAD_STAGES, LEAD_PRIORITIES, LEAD_SOURCES } from "../../lib/constants";
 
-/**
- * Create / edit a lead. When `lead` is provided we're editing; otherwise
- * creating. Calls `onSaved(lead)` so the parent can refresh its list.
- */
 export function LeadFormDialog({ open, onClose, lead, onSaved }) {
   const editing = Boolean(lead?._id);
   const {
@@ -18,7 +14,6 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  // Reset the form whenever the target lead changes / dialog opens.
   useEffect(() => {
     if (!open) return;
     reset({
@@ -40,7 +35,7 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
       const res = editing
         ? await leadsApi.update(lead._id, payload)
         : await leadsApi.create(payload);
-      toast.success(editing ? "Lead updated" : "Lead created");
+      toast.success(editing ? "Lead updated successfully" : "Opportunity created in pipeline");
       onSaved?.(res.lead);
       onClose();
     } catch (err) {
@@ -52,61 +47,68 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
     <Dialog
       open={open}
       onClose={onClose}
-      title={editing ? "Edit lead" : "New lead"}
-      description={editing ? "Update this lead's details." : "Add a lead to your pipeline."}
+      title={editing ? "Update Opportunity" : "Create New Deal"}
+      description={editing ? "Modify deal attributes, valuation, and sales stage." : "Track a new revenue opportunity and assign stage & priority."}
+      className="max-w-xl"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-2">
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Name" error={errors.name?.message} className="col-span-2">
+          <Field label="Deal / Account Name" error={errors.name?.message} className="col-span-2">
             <Input
-              placeholder="Contact name"
+              placeholder="e.g. Enterprise Platform Rollout"
               {...register("name", { required: "Name is required" })}
             />
           </Field>
-          <Field label="Company">
-            <Input placeholder="Company" {...register("company")} />
+          <Field label="Company / Organization">
+            <Input placeholder="Acme Global Inc" {...register("company")} />
           </Field>
-          <Field label="Email">
-            <Input type="email" placeholder="email@company.com" {...register("email")} />
+          <Field label="Primary Email">
+            <Input type="email" placeholder="contact@company.com" {...register("email")} />
           </Field>
-          <Field label="Phone">
-            <Input placeholder="+1 555 0100" {...register("phone")} />
+          <Field label="Direct Phone">
+            <Input placeholder="+1 (555) 019-2834" {...register("phone")} />
           </Field>
-          <Field label="Deal value (USD)">
-            <Input type="number" min="0" placeholder="0" {...register("value")} />
+          <Field label="Estimated Deal Value ($ USD)">
+            <Input type="number" min="0" placeholder="50000" {...register("value")} />
           </Field>
-          <Field label="Stage">
+          <Field label="Pipeline Stage">
             <Select {...register("status")}>
               {LEAD_STAGES.map((s) => (
-                <option key={s}>{s}</option>
+                <option key={s} value={s} className="bg-slate-900 text-white">
+                  {s}
+                </option>
               ))}
             </Select>
           </Field>
-          <Field label="Priority">
+          <Field label="Deal Priority">
             <Select {...register("priority")}>
               {LEAD_PRIORITIES.map((p) => (
-                <option key={p}>{p}</option>
+                <option key={p} value={p} className="bg-slate-900 text-white">
+                  {p}
+                </option>
               ))}
             </Select>
           </Field>
-          <Field label="Source" className="col-span-2">
+          <Field label="Lead Source" className="col-span-2">
             <Select {...register("source")}>
               {LEAD_SOURCES.map((s) => (
-                <option key={s}>{s}</option>
+                <option key={s} value={s} className="bg-slate-900 text-white">
+                  {s}
+                </option>
               ))}
             </Select>
           </Field>
-          <Field label="Notes" className="col-span-2">
-            <Textarea placeholder="Context, next steps…" {...register("notes")} />
+          <Field label="Deal Notes & Scope" className="col-span-2">
+            <Textarea placeholder="Key requirements, budget timeline, champions..." {...register("notes")} />
           </Field>
         </div>
 
-        <div className="flex justify-end gap-2 pt-1">
-          <Button type="button" variant="outline" onClick={onClose}>
+        <div className="flex justify-end gap-2.5 pt-3 border-t border-slate-800">
+          <Button type="button" variant="ghost" size="sm" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="submit" loading={isSubmitting}>
-            {editing ? "Save changes" : "Create lead"}
+          <Button type="submit" variant="primary" size="sm" loading={isSubmitting}>
+            {editing ? "Save Changes" : "Create Deal"}
           </Button>
         </div>
       </form>

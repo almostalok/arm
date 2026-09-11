@@ -1,17 +1,17 @@
+import React from "react";
 import { Inbox } from "lucide-react";
 
-/** Friendly empty-state placeholder with optional action. */
 export function EmptyState({ icon: Icon = Inbox, title, description, action }) {
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
-        <Icon className="h-6 w-6" />
+    <div className="flex flex-col items-center justify-center px-6 py-14 text-center rounded-2xl border border-dashed border-slate-800 bg-slate-900/40">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-inner">
+        <Icon className="h-5 w-5" />
       </div>
-      <h3 className="mt-4 text-base font-semibold text-ink">{title}</h3>
+      <h3 className="mt-3.5 text-sm font-semibold text-white font-display">{title}</h3>
       {description && (
-        <p className="mt-1 max-w-sm text-sm text-ink-soft">{description}</p>
+        <p className="mt-1 max-w-sm text-xs text-slate-400 leading-relaxed">{description}</p>
       )}
-      {action && <div className="mt-5">{action}</div>}
+      {action && <div className="mt-4">{action}</div>}
     </div>
   );
 }
