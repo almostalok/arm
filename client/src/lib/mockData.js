@@ -1,10 +1,6 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Mock data for the UI-only boilerplate.
-
-   This file lets the entire frontend run WITHOUT a backend. lib/services.js
-   serves this data (with a tiny artificial delay) so every page, chart and
-   dialog works exactly like the real app. Delete this file — and switch
-   lib/services.js back to the real API calls — once your backend is ready.
+   ARM (Account & Relationship Manager) — In-memory Mock Data Store
+   High-performance dataset for instant reactivity and demonstration.
    ───────────────────────────────────────────────────────────────────────── */
 
 const daysAgo = (n) => new Date(Date.now() - n * 86400000).toISOString();
@@ -14,31 +10,31 @@ const today = () => new Date().toISOString();
 export const mockUser = {
   id: "u1",
   name: "Alex Carter",
-  email: "alex@timetoprogram.com",
-  role: "owner",
-  company: "Time To Program",
+  email: "alex@armcrm.io",
+  role: "Sales Director & Founder",
+  company: "ARM Technologies",
   avatar: "",
   createdAt: daysAgo(240),
 };
 
 /* Each maker returns a FRESH array so the in-memory store can be reset cleanly. */
 export const makeLeads = () => [
-  lead("l1", "Dribbble Design", "Acme Corp", "New", "High", "Website", 89345, 8),
-  lead("l2", "Google Pay", "Globex", "Qualified", "High", "Referral", 124000, 20),
-  lead("l3", "Amazon Shopping", "Initech", "Proposal", "Medium", "Cold Outreach", 32123, 35),
-  lead("l4", "Stripe", "Umbrella Co", "Won", "High", "Event", 76500, 60),
-  lead("l5", "Notion", "Soylent", "New", "Low", "Social", 12400, 4),
-  lead("l6", "Figma", "Hooli", "Qualified", "Medium", "Website", 54000, 14),
-  lead("l7", "Linear", "Pied Piper", "Proposal", "High", "Referral", 98000, 28),
-  lead("l8", "Slack", "Vehement", "Lost", "Low", "Cold Outreach", 21000, 95),
-  lead("l9", "Vercel", "Massive Dynamic", "Won", "High", "Referral", 143000, 110),
-  lead("l10", "Airtable", "Wayne Ent.", "Qualified", "High", "Event", 67000, 18),
-  lead("l11", "Datadog", "Stark Industries", "New", "Medium", "Website", 45000, 2),
-  lead("l12", "Snowflake", "Cyberdyne", "Proposal", "High", "Referral", 152000, 48),
-  lead("l13", "HubSpot", "Tyrell Corp", "Won", "Medium", "Event", 88000, 150),
-  lead("l14", "Asana", "Aperture Labs", "Qualified", "Low", "Social", 30000, 22),
-  lead("l15", "Zoom", "Oscorp", "New", "Medium", "Cold Outreach", 26000, 6),
-  lead("l16", "GitLab", "LexCorp", "Lost", "Low", "Website", 18000, 70),
+  lead("l1", "Dribbble Enterprise", "Acme Corp", "New", "High", "Website", 89345, 8),
+  lead("l2", "Google Cloud Integration", "Globex Corp", "Qualified", "High", "Referral", 124000, 20),
+  lead("l3", "Amazon Web Expansion", "Initech Global", "Proposal", "Medium", "Outbound", 32123, 35),
+  lead("l4", "Stripe Billing Connect", "Umbrella Co", "Won", "High", "Partner", 76500, 60),
+  lead("l5", "Notion Team Rollout", "Soylent Corp", "New", "Low", "Website", 12400, 4),
+  lead("l6", "Figma Design System", "Hooli Tech", "Qualified", "Medium", "Referral", 54000, 14),
+  lead("l7", "Linear Integration", "Pied Piper", "Proposal", "High", "Inbound", 98000, 28),
+  lead("l8", "Slack Enterprise Grid", "Vehement Media", "Lost", "Low", "Outbound", 21000, 95),
+  lead("l9", "Vercel Enterprise Tier", "Massive Dynamic", "Won", "High", "Partner", 143000, 110),
+  lead("l10", "Airtable Data Suite", "Wayne Enterprises", "Qualified", "High", "Executive", 67000, 18),
+  lead("l11", "Datadog Observability", "Stark Industries", "New", "Medium", "Website", 45000, 2),
+  lead("l12", "Snowflake Pipeline", "Cyberdyne Systems", "Proposal", "High", "Partner", 152000, 48),
+  lead("l13", "HubSpot CRM Migration", "Tyrell Corporation", "Won", "Medium", "Referral", 88000, 150),
+  lead("l14", "Asana Workflow Ops", "Aperture Labs", "Qualified", "Low", "Inbound", 30000, 22),
+  lead("l15", "Zoom Rooms Overhaul", "Oscorp Industries", "New", "Medium", "Outbound", 26000, 6),
+  lead("l16", "GitLab CI/CD Migration", "LexCorp Global", "Lost", "Low", "Website", 18000, 70),
 ];
 
 function lead(_id, name, company, status, priority, source, value, ageDays) {
@@ -56,28 +52,28 @@ function lead(_id, name, company, status, priority, source, value, ageDays) {
     value,
     notes:
       status === "Won"
-        ? "Closed — annual contract signed."
-        : "Active opportunity in the pipeline.",
-    tags: ["saas"],
+        ? "Closed won — annual multi-seat contract executed."
+        : "Active deal in high-touch pipeline.",
+    tags: ["enterprise", "saas"],
     order: 0,
-    aiSummary: "",
-    aiRiskScore: null,
+    leadScore: Math.min(98, 45 + parseInt(_id.slice(1), 10) * 3),
+    buyingStage: status === "Won" ? "Customer" : status === "Proposal" ? "Decision Phase" : "Evaluation",
     createdAt: daysAgo(ageDays),
     updatedAt: daysAgo(Math.max(0, Math.floor(ageDays / 4))),
   };
 }
 
 export const makeContacts = () => [
-  contact("c1", "Olivia Bennett", "VP of Sales", "Acme Corp", ["decision-maker", "warm"], true),
-  contact("c2", "Noah Carter", "CTO", "Globex", ["technical", "champion"], true),
-  contact("c3", "Emma Walsh", "Procurement Manager", "Initech", ["finance"], false),
-  contact("c4", "Liam Foster", "Founder", "Umbrella Co", ["executive"], false),
-  contact("c5", "Ava Mitchell", "Head of Operations", "Hooli", ["warm"], false),
-  contact("c6", "Ethan Brooks", "Product Lead", "Pied Piper", ["champion", "technical"], true),
-  contact("c7", "Sophia Reed", "Marketing Director", "Wayne Ent.", ["influencer"], false),
-  contact("c8", "Mason Hayes", "CFO", "Cyberdyne", ["finance", "executive"], false),
-  contact("c9", "Isabella Diaz", "Head of Growth", "Stark Industries", ["vip", "warm"], false),
-  contact("c10", "Lucas Park", "Engineering Manager", "Tyrell Corp", ["technical"], false),
+  contact("c1", "Olivia Bennett", "VP of Sales & Growth", "Acme Corp", ["decision-maker", "executive"], true),
+  contact("c2", "Noah Carter", "Chief Technology Officer", "Globex Corp", ["technical", "champion"], true),
+  contact("c3", "Emma Walsh", "Head of Procurement", "Initech Global", ["finance", "procurement"], false),
+  contact("c4", "Liam Foster", "Founder & CEO", "Umbrella Co", ["executive", "vip"], true),
+  contact("c5", "Ava Mitchell", "Head of Revenue Ops", "Hooli Tech", ["operations"], false),
+  contact("c6", "Ethan Brooks", "Staff Product Architect", "Pied Piper", ["champion", "technical"], true),
+  contact("c7", "Sophia Reed", "Director of Product Marketing", "Wayne Enterprises", ["influencer"], false),
+  contact("c8", "Mason Hayes", "Chief Financial Officer", "Cyberdyne Systems", ["finance", "executive"], false),
+  contact("c9", "Isabella Diaz", "VP of Global Growth", "Stark Industries", ["vip", "decision-maker"], true),
+  contact("c10", "Lucas Park", "Director of Platform Engineering", "Tyrell Corporation", ["technical"], false),
 ];
 
 function contact(_id, name, title, company, tags, favorite) {
@@ -92,7 +88,7 @@ function contact(_id, name, title, company, tags, favorite) {
     phone: `+1 555 0${100 + parseInt(_id.slice(1), 10)}`,
     tags,
     favorite,
-    notes: favorite ? "Primary point of contact." : "",
+    notes: favorite ? "Key executive contact for accounts." : "",
     createdAt: daysAgo(parseInt(_id.slice(1), 10) * 7),
   };
 }
@@ -100,14 +96,14 @@ function contact(_id, name, title, company, tags, favorite) {
 const leadLite = (_id, name, company) => ({ _id, name, company });
 
 export const makeNotes = () => [
-  note("n1", "Decision expected end of month. Loop in a solutions engineer for the technical review.", leadLite("l2", "Google Pay", "Globex"), true, 3),
-  note("n2", "Pricing pushback on the Pro tier — prepare an ROI one-pager before the next call.", leadLite("l3", "Amazon Shopping", "Initech"), false, 6),
-  note("n3", "Champion is leaving the company; identify a backup stakeholder ASAP.", leadLite("l7", "Linear", "Pied Piper"), true, 9),
-  note("n4", "Security questionnaire + SOC 2 report requested. Sent to the trust center.", leadLite("l12", "Snowflake", "Cyberdyne"), false, 12),
-  note("n5", "Great discovery call — strong interest in the analytics module.", leadLite("l1", "Dribbble Design", "Acme Corp"), false, 1),
-  note("n6", "Expansion likely next quarter — multi-year deal already signed.", leadLite("l9", "Vercel", "Massive Dynamic"), false, 18),
-  note("n7", "Scheduling a technical deep-dive with the engineering team.", leadLite("l10", "Airtable", "Wayne Ent."), false, 5),
-  note("n8", "Early stage, budget unconfirmed. Re-engage in two weeks.", leadLite("l5", "Notion", "Soylent"), false, 2),
+  note("n1", "Decision timeline scheduled for end of month. Confirmed solutions architecture review with VP Engineering.", leadLite("l2", "Google Cloud Integration", "Globex Corp"), true, 3),
+  note("n2", "Pricing alignment review: provided customized ROI breakdown and tiered enterprise volume discounts.", leadLite("l3", "Amazon Web Expansion", "Initech Global"), false, 6),
+  note("n3", "Internal champion promoted to VP; established direct introduction with procurement lead.", leadLite("l7", "Linear Integration", "Pied Piper"), true, 9),
+  note("n4", "Completed SOC 2 Type II compliance audit packet delivery and vendor security review.", leadLite("l12", "Snowflake Pipeline", "Cyberdyne Systems"), false, 12),
+  note("n5", "Completed comprehensive platform demo with 8 stakeholders from the growth engineering team.", leadLite("l1", "Dribbble Enterprise", "Acme Corp"), false, 1),
+  note("n6", "Expansion discussion confirmed for Q4 roadmap: multi-region cluster deployment approved.", leadLite("l9", "Vercel Enterprise Tier", "Massive Dynamic"), false, 18),
+  note("n7", "Technical deep-dive session scheduled for next Tuesday regarding high-throughput API rate limits.", leadLite("l10", "Airtable Data Suite", "Wayne Enterprises"), false, 5),
+  note("n8", "Discovery call completed. Budget cycle opens on 1st of next month; scheduled automated follow-up.", leadLite("l5", "Notion Team Rollout", "Soylent Corp"), false, 2),
 ];
 
 function note(_id, content, lead, pinned, ageDays) {
@@ -115,16 +111,16 @@ function note(_id, content, lead, pinned, ageDays) {
 }
 
 export const makeTasks = () => [
-  task("t1", "Send proposal follow-up to Initech", "High", "Pending", daysAgo(2), leadLite("l3", "Amazon Shopping", "Initech")),
-  task("t2", "Schedule technical deep-dive with Wayne Ent.", "Medium", "In Progress", daysAhead(3), leadLite("l10", "Airtable", "Wayne Ent.")),
-  task("t3", "Quarterly check-in with Massive Dynamic", "Low", "Pending", daysAhead(7), leadLite("l9", "Vercel", "Massive Dynamic")),
-  task("t4", "Draft ROI one-pager for Initech", "High", "Completed", daysAgo(4), leadLite("l3", "Amazon Shopping", "Initech")),
-  task("t5", "Negotiate pricing with Cyberdyne", "High", "Pending", today(), leadLite("l12", "Snowflake", "Cyberdyne")),
-  task("t6", "Share case study with Globex", "Medium", "Pending", daysAhead(1), leadLite("l2", "Google Pay", "Globex")),
-  task("t7", "Confirm contract redlines with Pied Piper", "High", "In Progress", daysAgo(1), leadLite("l7", "Linear", "Pied Piper")),
-  task("t8", "Book discovery call with Oscorp", "Low", "Pending", daysAhead(5), leadLite("l15", "Zoom", "Oscorp")),
-  task("t9", "Send security docs to Cyberdyne", "Medium", "Completed", daysAgo(8), leadLite("l12", "Snowflake", "Cyberdyne")),
-  task("t10", "Re-engage stalled deal at Soylent", "Low", "Pending", daysAhead(14), leadLite("l5", "Notion", "Soylent")),
+  task("t1", "Deliver executive proposal & pricing model", "High", "Pending", daysAgo(2), leadLite("l3", "Amazon Web Expansion", "Initech Global")),
+  task("t2", "Host technical architecture deep-dive with Wayne Enterprises", "Medium", "In Progress", daysAhead(3), leadLite("l10", "Airtable Data Suite", "Wayne Enterprises")),
+  task("t3", "Conduct quarterly business review & expansion check-in", "Low", "Pending", daysAhead(7), leadLite("l9", "Vercel Enterprise Tier", "Massive Dynamic")),
+  task("t4", "Build tailored enterprise ROI analysis model", "High", "Completed", daysAgo(4), leadLite("l3", "Amazon Web Expansion", "Initech Global")),
+  task("t5", "Negotiate master services agreement with legal team", "High", "Pending", today(), leadLite("l12", "Snowflake Pipeline", "Cyberdyne Systems")),
+  task("t6", "Send customer case study and benchmark metrics", "Medium", "Pending", daysAhead(1), leadLite("l2", "Google Cloud Integration", "Globex Corp")),
+  task("t7", "Review contract redlines & standard SLA commitments", "High", "In Progress", daysAgo(1), leadLite("l7", "Linear Integration", "Pied Piper")),
+  task("t8", "Conduct initial discovery & technical qualification call", "Low", "Pending", daysAhead(5), leadLite("l15", "Zoom Rooms Overhaul", "Oscorp Industries")),
+  task("t9", "Share SOC 2 Type II trust report and DPA docs", "Medium", "Completed", daysAgo(8), leadLite("l12", "Snowflake Pipeline", "Cyberdyne Systems")),
+  task("t10", "Schedule re-engagement touchpoint for upcoming budget cycle", "Low", "Pending", daysAhead(14), leadLite("l5", "Notion Team Rollout", "Soylent Corp")),
 ];
 
 function task(_id, title, priority, status, dueDate, relatedLead) {
@@ -142,42 +138,52 @@ function task(_id, title, priority, status, dueDate, relatedLead) {
   };
 }
 
-/* Canned AI responses so the AI buttons work without a Gemini key. */
-export const mockAiStatus = {
-  success: true,
-  configured: true,
-  model: "gemini-2.5-flash (mock)",
-};
+/* Outreach Email Templates Playbook */
+export const outreachTemplates = [
+  {
+    id: "followup",
+    name: "Executive Follow-Up",
+    subject: "Following up on our discussion: next steps for {{company}}",
+    body: "Hi {{firstName}},\n\nThank you for taking the time to speak earlier this week. It was great learning about your team's goals at {{company}}.\n\nAs discussed, I have put together our proposal and architecture outline tailored to your requirements. Would you and the team have 20 minutes later this week to review the key points and next steps?\n\nBest regards,\nAlex Carter\nARM Relationship Workspace",
+  },
+  {
+    id: "proposal",
+    name: "Proposal & Terms Review",
+    subject: "ARM Workspace Proposal & Implementation Plan: {{dealName}}",
+    body: "Hi {{firstName}},\n\nFollowing our review, please find the comprehensive commercial proposal for {{company}} attached.\n\nKey highlights include:\n- Full access to ARM deal orchestration & workflow automation\n- Dedicated enterprise onboarding & migration assistance\n- Enterprise SLA with 99.99% uptime guarantee\n\nLet me know when is best for a quick walk-through of the terms.\n\nBest regards,\nAlex Carter",
+  },
+  {
+    id: "checkin",
+    name: "Quarterly Check-In & Expansion",
+    subject: "Checking in on {{company}}'s growth & pipeline performance",
+    body: "Hi {{firstName}},\n\nI hope your quarter is off to a stellar start! I wanted to check in and see how the team is finding the platform and whether there are additional workflows we can assist with.\n\nWe recently rolled out several high-velocity pipeline analytics features that might be especially relevant for {{company}}.\n\nWould you be open to a brief catch-up sometime next week?\n\nBest,\nAlex Carter",
+  },
+  {
+    id: "redline",
+    name: "Legal & MSA Redlines",
+    subject: "MSA & Security Terms for {{company}} Review",
+    body: "Hi {{firstName}},\n\nOur legal and compliance team has reviewed the requested redlines and prepared the updated agreement for {{company}}.\n\nAll standard data protection clauses and security terms have been incorporated. Please let us know if everything looks aligned to proceed with execution.\n\nBest,\nAlex Carter",
+  },
+];
 
-export const mockAiSummary = {
-  success: true,
-  summary:
-    "A strong mid-market opportunity with an engaged champion and confirmed budget. The deal is progressing well but hinges on a pending legal review.",
-  riskScore: 38,
-  suggestedPriority: "High",
-  nextBestAction:
-    "Send the signed MSA template to accelerate the legal review and lock a close date.",
-};
-
-export const mockAiEmail = {
-  success: true,
-  subject: "Quick follow-up on next steps",
-  body:
-    "Hi there,\n\nThanks again for the great conversation earlier this week. I wanted to follow up with a quick summary of how we can help your team hit its goals this quarter.\n\nWould you be open to a 20-minute call later this week to walk through the proposal and answer any questions?\n\nBest,\nAlex Carter\nTime To Program",
-};
-
-export const mockAiInsights = {
-  success: true,
-  headline: "Pipeline is healthy, but proposals are stalling at the redline stage.",
-  insights: [
-    "Qualified-to-Proposal conversion is strong at 64%.",
-    "Three high-value deals have sat in Proposal for over 30 days.",
-    "Referral leads close at nearly 2x the rate of cold outreach.",
+/* Account & Lead Intelligence Scoring */
+export const accountIntelligence = {
+  healthScore: 88,
+  pipelineVelocity: "+24.5% vs last month",
+  winRate: "42.8%",
+  avgCycleDays: 24,
+  keySignals: [
+    "High engagement on proposals: average review time under 48 hours",
+    "Referral deals converting at 64%, 2.2x faster than cold channels",
+    "3 high-value enterprise opportunities approaching decision milestones",
   ],
-  recommendations: [
-    "Prioritize the three stalled proposals with a tailored ROI one-pager.",
-    "Double down on the referral channel — it's your highest-converting source.",
-    "Set a 14-day SLA on the Proposal stage to prevent deals going cold.",
+  riskFactors: [
+    "2 proposals in redline review have exceeded standard 14-day SLA",
+    "Follow-up cadence overdue on 1 mid-market inbound opportunity",
   ],
-  healthScore: 74,
+  recommendedActions: [
+    "Execute closing playbook on Cyberdyne Systems ($152,000)",
+    "Schedule technical alignment for Wayne Enterprises ($67,000)",
+    "Send automated quarterly check-in to massive accounts",
+  ],
 };

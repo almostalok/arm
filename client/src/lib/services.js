@@ -1,33 +1,17 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   API service layer — UI-ONLY BOILERPLATE (mock mode).
-
-   Every method currently resolves MOCK data from lib/mockData.js so the whole
-   app runs without a backend. The real axios calls are kept commented right
-   above each mock so that, once your backend is live, you:
-
-     1. Enable the axios client in lib/api.js (uncomment it there).
-     2. Uncomment the `import api` line below.
-     3. In each method, swap the mock line for the commented real line.
-
-   The shapes returned here match the real API exactly, so no page/component
-   needs to change.
+   ARM (Account & Relationship Manager) — API & Mock Service Layer
    ───────────────────────────────────────────────────────────────────────── */
 
-// import api from "./api";
 import {
   mockUser,
   makeLeads,
   makeContacts,
   makeNotes,
   makeTasks,
-  mockAiStatus,
-  mockAiSummary,
-  mockAiEmail,
-  mockAiInsights,
+  outreachTemplates,
+  accountIntelligence,
 } from "./mockData";
 
-/* In-memory stores so create / edit / delete feel real during the UI phase.
-   They reset on page refresh — that's expected for a mock. */
 let leads = makeLeads();
 let contacts = makeContacts();
 let notes = makeNotes();
@@ -35,8 +19,7 @@ let tasks = makeTasks();
 
 const uid = () => "id_" + Math.random().toString(36).slice(2, 10);
 const clone = (d) => JSON.parse(JSON.stringify(d));
-// Resolve like a network call would: a short delay + a fresh copy of the data.
-const reply = (data, ms = 250) =>
+const reply = (data, ms = 200) =>
   new Promise((resolve) => setTimeout(() => resolve(clone(data)), ms));
 
 const leadLite = (id) => {
@@ -46,17 +29,10 @@ const leadLite = (id) => {
 
 /* ── Auth ───────────────────────────────────────────────────────────── */
 export const authApi = {
-  // login: (data) => api.post("/auth/login", data),
   login: () => reply({ success: true, token: "mock-token", user: mockUser }),
-
-  // register: (data) => api.post("/auth/register", data),
   register: (data) =>
     reply({ success: true, token: "mock-token", user: { ...mockUser, ...data } }),
-
-  // me: () => api.get("/auth/me"),
   me: () => reply({ success: true, user: mockUser }),
-
-  // updateProfile: (data) => api.put("/auth/profile", data),
   updateProfile: (data) => {
     Object.assign(mockUser, data);
     return reply({ success: true, user: mockUser });
@@ -65,20 +41,15 @@ export const authApi = {
 
 /* ── Leads ──────────────────────────────────────────────────────────── */
 export const leadsApi = {
-  // list: (params) => api.get("/leads", { params }),
   list: () => reply({ success: true, count: leads.length, leads }),
-
-  // get: (id) => api.get(`/leads/${id}`),
   get: (id) => reply({ success: true, lead: leads.find((l) => l._id === id) }),
-
-  // create: (data) => api.post("/leads", data),
   create: (data) => {
     const lead = {
       _id: uid(),
       order: 0,
-      tags: [],
-      aiSummary: "",
-      aiRiskScore: null,
+      tags: ["deal", "enterprise"],
+      leadScore: 75,
+      buyingStage: "Evaluation",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       ...data,
@@ -86,22 +57,16 @@ export const leadsApi = {
     leads = [lead, ...leads];
     return reply({ success: true, lead });
   },
-
-  // update: (id, data) => api.put(`/leads/${id}`, data),
   update: (id, data) => {
     leads = leads.map((l) =>
       l._id === id ? { ...l, ...data, updatedAt: new Date().toISOString() } : l
     );
     return reply({ success: true, lead: leads.find((l) => l._id === id) });
   },
-
-  // remove: (id) => api.delete(`/leads/${id}`),
   remove: (id) => {
     leads = leads.filter((l) => l._id !== id);
     return reply({ success: true, message: "Lead deleted" });
   },
-
-  // reorder: (updates) => api.patch("/leads/reorder", { updates }),
   reorder: (updates) => {
     updates.forEach((u) => {
       leads = leads.map((l) =>
@@ -114,17 +79,12 @@ export const leadsApi = {
 
 /* ── Contacts ───────────────────────────────────────────────────────── */
 export const contactsApi = {
-  // list: (params) => api.get("/contacts", { params }),
   list: () => reply({ success: true, count: contacts.length, contacts }),
-
-  // get: (id) => api.get(`/contacts/${id}`),
   get: (id) => reply({ success: true, contact: contacts.find((c) => c._id === id) }),
-
-  // create: (data) => api.post("/contacts", data),
   create: (data) => {
     const contact = {
       _id: uid(),
-      tags: [],
+      tags: ["contact"],
       favorite: false,
       createdAt: new Date().toISOString(),
       ...data,
@@ -132,14 +92,10 @@ export const contactsApi = {
     contacts = [contact, ...contacts];
     return reply({ success: true, contact });
   },
-
-  // update: (id, data) => api.put(`/contacts/${id}`, data),
   update: (id, data) => {
     contacts = contacts.map((c) => (c._id === id ? { ...c, ...data } : c));
     return reply({ success: true, contact: contacts.find((c) => c._id === id) });
   },
-
-  // remove: (id) => api.delete(`/contacts/${id}`),
   remove: (id) => {
     contacts = contacts.filter((c) => c._id !== id);
     return reply({ success: true, message: "Contact deleted" });
@@ -148,15 +104,12 @@ export const contactsApi = {
 
 /* ── Notes ──────────────────────────────────────────────────────────── */
 export const notesApi = {
-  // list: (params) => api.get("/notes", { params }),
   list: () => {
     const sorted = [...notes].sort(
       (a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)
     );
     return reply({ success: true, count: sorted.length, notes: sorted });
   },
-
-  // create: (data) => api.post("/notes", data),
   create: (data) => {
     const note = {
       _id: uid(),
@@ -169,8 +122,6 @@ export const notesApi = {
     notes = [note, ...notes];
     return reply({ success: true, note });
   },
-
-  // update: (id, data) => api.put(`/notes/${id}`, data),
   update: (id, data) => {
     notes = notes.map((n) => {
       if (n._id !== id) return n;
@@ -180,8 +131,6 @@ export const notesApi = {
     });
     return reply({ success: true, note: notes.find((n) => n._id === id) });
   },
-
-  // remove: (id) => api.delete(`/notes/${id}`),
   remove: (id) => {
     notes = notes.filter((n) => n._id !== id);
     return reply({ success: true, message: "Note deleted" });
@@ -190,10 +139,7 @@ export const notesApi = {
 
 /* ── Tasks ──────────────────────────────────────────────────────────── */
 export const tasksApi = {
-  // list: (params) => api.get("/tasks", { params }),
   list: () => reply({ success: true, count: tasks.length, tasks }),
-
-  // create: (data) => api.post("/tasks", data),
   create: (data) => {
     const task = {
       _id: uid(),
@@ -207,8 +153,6 @@ export const tasksApi = {
     tasks = [task, ...tasks];
     return reply({ success: true, task });
   },
-
-  // update: (id, data) => api.put(`/tasks/${id}`, data),
   update: (id, data) => {
     tasks = tasks.map((t) => {
       if (t._id !== id) return t;
@@ -222,33 +166,57 @@ export const tasksApi = {
     });
     return reply({ success: true, task: tasks.find((t) => t._id === id) });
   },
-
-  // remove: (id) => api.delete(`/tasks/${id}`),
   remove: (id) => {
     tasks = tasks.filter((t) => t._id !== id);
     return reply({ success: true, message: "Task deleted" });
   },
 };
 
-/* ── AI (canned mock responses) ─────────────────────────────────────── */
-export const aiApi = {
-  // status: () => api.get("/ai/status"),
-  status: () => reply(mockAiStatus),
-
-  // leadSummary: (data) => api.post("/ai/lead-summary", data),
-  leadSummary: () => reply(mockAiSummary, 800),
-
-  // generateEmail: (data) => api.post("/ai/generate-email", data),
-  generateEmail: () => reply(mockAiEmail, 900),
-
-  // salesInsights: (data) => api.post("/ai/sales-insights", data),
-  salesInsights: () => reply(mockAiInsights, 900),
+/* ── Outreach & Email Automation Playbooks ──────────────────────────── */
+export const outreachApi = {
+  getTemplates: () => reply({ success: true, templates: outreachTemplates }),
+  sendEmail: (data) =>
+    reply({
+      success: true,
+      message: `Outreach email scheduled and dispatched to ${data.recipient || "client"}`,
+    }, 400),
 };
 
-/* ── Analytics (computed from the in-memory leads, so the dashboard always
-      matches the Leads/Pipeline pages) ──────────────────────────────────── */
+/* ── Account Intelligence & Lead Scoring ─────────────────────────────── */
+export const intelligenceApi = {
+  getAccountIntelligence: () => reply({ success: true, ...accountIntelligence }),
+  scoreLead: (leadData) => {
+    const score = Math.min(99, Math.max(30, Math.floor((leadData?.value || 50000) / 1500) + 20));
+    return reply({
+      success: true,
+      score,
+      health: score > 70 ? "Healthy" : score > 50 ? "Moderate" : "Needs Attention",
+      signals: ["Recent proposal view within 24h", "Decision maker engaged on call"],
+      nextAction: "Execute follow-up cadencing",
+    });
+  },
+};
+
+/* Backwards compatibility */
+export const aiApi = {
+  status: () => reply({ success: true, configured: true }),
+  leadSummary: () => reply({
+    success: true,
+    summary: "High-value enterprise opportunity with verified budget and active executive sponsorship.",
+    riskScore: 25,
+    suggestedPriority: "High",
+    nextBestAction: "Deliver tailored ROI analysis model to acceleration decision.",
+  }),
+  generateEmail: () => reply({
+    success: true,
+    subject: outreachTemplates[0].subject,
+    body: outreachTemplates[0].body,
+  }),
+  salesInsights: () => reply({ success: true, ...accountIntelligence }),
+};
+
+/* ── Analytics ──────────────────────────────────────────────────────── */
 export const analyticsApi = {
-  // overview: () => api.get("/analytics/overview"),
   overview: () => reply(buildOverview()),
 };
 
@@ -270,7 +238,6 @@ function buildOverview() {
   const closed = won + lost;
   const conversionRate = closed ? Math.round((won / closed) * 100) : 0;
 
-  // Last 6 months trend from lead createdAt.
   const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const now = new Date();
   const months = [];
@@ -298,6 +265,7 @@ function buildOverview() {
       company: l.company,
       status: l.status,
       value: l.value,
+      leadScore: l.leadScore,
       updatedAt: l.updatedAt,
     }));
 
