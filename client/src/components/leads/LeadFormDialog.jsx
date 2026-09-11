@@ -51,7 +51,7 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
       description={editing ? "Modify deal attributes, valuation, and sales stage." : "Track a new revenue opportunity and assign stage & priority."}
       className="max-w-xl"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5 pt-1">
         <div className="grid grid-cols-2 gap-3">
           <Field label="Deal / Account Name" error={errors.name?.message} className="col-span-2">
             <Input
@@ -74,7 +74,7 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
           <Field label="Pipeline Stage">
             <Select {...register("status")}>
               {LEAD_STAGES.map((s) => (
-                <option key={s} value={s} className="bg-slate-900 text-white">
+                <option key={s} value={s} className="bg-zinc-900 text-zinc-100">
                   {s}
                 </option>
               ))}
@@ -83,7 +83,7 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
           <Field label="Deal Priority">
             <Select {...register("priority")}>
               {LEAD_PRIORITIES.map((p) => (
-                <option key={p} value={p} className="bg-slate-900 text-white">
+                <option key={p} value={p} className="bg-zinc-900 text-zinc-100">
                   {p}
                 </option>
               ))}
@@ -92,7 +92,7 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
           <Field label="Lead Source" className="col-span-2">
             <Select {...register("source")}>
               {LEAD_SOURCES.map((s) => (
-                <option key={s} value={s} className="bg-slate-900 text-white">
+                <option key={s} value={s} className="bg-zinc-900 text-zinc-100">
                   {s}
                 </option>
               ))}
@@ -103,7 +103,7 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
           </Field>
         </div>
 
-        <div className="flex justify-end gap-2.5 pt-3 border-t border-slate-800">
+        <div className="flex justify-end gap-2 pt-3 border-t border-zinc-800">
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>
             Cancel
           </Button>

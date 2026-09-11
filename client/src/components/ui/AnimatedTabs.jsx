@@ -7,9 +7,10 @@ export function AnimatedTabs({
   onChange,
   className = "",
   layoutId = "active-pill",
+  variant = "zinc", // 'zinc' | 'blue'
 }) {
   return (
-    <div className={`flex items-center gap-1 p-1 bg-slate-900/90 border border-slate-800/80 rounded-xl backdrop-blur-md ${className}`}>
+    <div className={`flex items-center gap-1 p-1 bg-zinc-900 border border-zinc-800 rounded-lg ${className}`}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         const Icon = tab.icon;
@@ -18,17 +19,21 @@ export function AnimatedTabs({
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
-            className={`relative flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-colors cursor-pointer select-none ${
+            className={`relative flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer select-none ${
               isActive
-                ? "text-white"
-                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+                ? "text-zinc-100"
+                : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50"
             }`}
           >
             {isActive && (
               <motion.div
                 layoutId={layoutId}
-                transition={{ type: "spring", stiffness: 450, damping: 35 }}
-                className="absolute inset-0 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 shadow-md shadow-indigo-600/30 border border-indigo-400/30"
+                transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                className={`absolute inset-0 rounded-md shadow-sm ${
+                  variant === "blue"
+                    ? "bg-blue-600 text-white border border-blue-500/40"
+                    : "bg-zinc-800 border border-zinc-700/80"
+                }`}
               />
             )}
             <span className="relative z-10 flex items-center gap-1.5">
@@ -36,10 +41,10 @@ export function AnimatedTabs({
               {tab.label}
               {tab.badge !== undefined && (
                 <span
-                  className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                  className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${
                     isActive
-                      ? "bg-white/20 text-white font-bold"
-                      : "bg-slate-800 text-slate-400"
+                      ? "bg-zinc-700 text-zinc-200"
+                      : "bg-zinc-800 text-zinc-400"
                   }`}
                 >
                   {tab.badge}

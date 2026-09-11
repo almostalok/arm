@@ -4,9 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { cn } from "../../lib/utils";
 
-/**
- * High-motion modal dialog with Framer Motion spring physics.
- */
 export function Dialog({ open, onClose, title, description, children, className }) {
   useEffect(() => {
     if (!open) return;
@@ -27,39 +24,39 @@ export function Dialog({ open, onClose, title, description, children, className 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md"
+            className="fixed inset-0 bg-zinc-950/80 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div
             role="dialog"
             aria-modal="true"
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            initial={{ opacity: 0, scale: 0.98, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ type: "spring", stiffness: 380, damping: 28 }}
+            exit={{ opacity: 0, scale: 0.98, y: 10 }}
+            transition={{ type: "spring", stiffness: 450, damping: 30 }}
             className={cn(
-              "relative z-10 w-full max-w-lg rounded-2xl bg-slate-900 border border-slate-700/80 shadow-2xl shadow-indigo-950/60 max-h-[90vh] overflow-y-auto no-scrollbar",
+              "relative z-10 w-full max-w-lg rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl shadow-zinc-950/90 max-h-[90vh] overflow-y-auto no-scrollbar",
               className
             )}
           >
             {(title || onClose) && (
-              <div className="flex items-start justify-between gap-4 p-6 pb-2 border-b border-slate-800/60">
+              <div className="flex items-start justify-between gap-4 p-5 pb-3 border-b border-zinc-800">
                 <div>
-                  {title && <h3 className="text-base font-semibold text-white font-display">{title}</h3>}
+                  {title && <h3 className="text-sm font-semibold text-zinc-100">{title}</h3>}
                   {description && (
-                    <p className="text-xs text-slate-400 mt-1">{description}</p>
+                    <p className="text-xs text-zinc-400 mt-0.5">{description}</p>
                   )}
                 </div>
                 <button
                   onClick={onClose}
-                  className="text-slate-400 hover:text-white rounded-lg p-1 hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="text-zinc-400 hover:text-zinc-100 rounded-md p-1 hover:bg-zinc-800 transition-colors cursor-pointer"
                   aria-label="Close"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
             )}
-            <div className="p-6">{children}</div>
+            <div className="p-5">{children}</div>
           </motion.div>
         </div>
       )}
@@ -68,9 +65,6 @@ export function Dialog({ open, onClose, title, description, children, className 
   );
 }
 
-/**
- * High-motion right slide-over drawer with spring physics.
- */
 export function Drawer({ open, onClose, title, children, className }) {
   useEffect(() => {
     if (!open) return;
@@ -91,30 +85,30 @@ export function Drawer({ open, onClose, title, children, className }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-zinc-950/80 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 350, damping: 32 }}
+            transition={{ type: "spring", stiffness: 400, damping: 35 }}
             className={cn(
-              "fixed right-0 top-0 h-full w-full max-w-lg bg-slate-900 border-l border-slate-800 shadow-2xl shadow-indigo-950/80 overflow-y-auto no-scrollbar z-10",
+              "fixed right-0 top-0 h-full w-full max-w-lg bg-zinc-900 border-l border-zinc-800 shadow-2xl shadow-zinc-950/90 overflow-y-auto no-scrollbar z-10",
               className
             )}
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between bg-slate-900/90 backdrop-blur-md px-6 py-4 border-b border-slate-800">
-              <h3 className="text-base font-semibold text-white font-display">{title}</h3>
+            <div className="sticky top-0 z-10 flex items-center justify-between bg-zinc-900/95 backdrop-blur-md px-5 py-3.5 border-b border-zinc-800">
+              <h3 className="text-sm font-semibold text-zinc-100">{title}</h3>
               <button
                 onClick={onClose}
-                className="text-slate-400 hover:text-white rounded-lg p-1 hover:bg-slate-800 transition-colors cursor-pointer"
+                className="text-zinc-400 hover:text-zinc-100 rounded-md p-1 hover:bg-zinc-800 transition-colors cursor-pointer"
                 aria-label="Close"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="p-6">{children}</div>
+            <div className="p-5">{children}</div>
           </motion.div>
         </div>
       )}

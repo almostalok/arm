@@ -3,8 +3,8 @@ import React, { useRef, useState } from "react";
 export function SpotlightCard({
   children,
   className = "",
-  spotlightColor = "rgba(99, 102, 241, 0.15)",
-  borderSpotlightColor = "rgba(129, 140, 248, 0.35)",
+  spotlightColor = "rgba(255, 255, 255, 0.04)",
+  borderSpotlightColor = "rgba(255, 255, 255, 0.15)",
   ...props
 }) {
   const divRef = useRef(null);
@@ -31,23 +31,23 @@ export function SpotlightCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-900/60 p-6 backdrop-blur-xl transition-all duration-300 hover:border-slate-700/80 hover:shadow-2xl hover:shadow-indigo-950/20 ${className}`}
+      className={`relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/70 p-5 transition-colors duration-150 hover:border-zinc-700/80 ${className}`}
       {...props}
     >
-      {/* Background Spotlight Glow */}
+      {/* Subtle Micro-illumination */}
       <div
-        className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
+        className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-200"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 50%)`,
+          background: `radial-gradient(500px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 60%)`,
         }}
       />
-      {/* Border Spotlight Glow */}
+      {/* Crisp 1px Highlight */}
       <div
-        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-300"
+        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-200"
         style={{
           opacity,
-          background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${borderSpotlightColor}, transparent 40%)`,
+          background: `radial-gradient(350px circle at ${position.x}px ${position.y}px, ${borderSpotlightColor}, transparent 40%)`,
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",

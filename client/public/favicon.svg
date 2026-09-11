@@ -1,18 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="16" fill="#090d16" />
-  <rect x="1" y="1" width="62" height="62" rx="15" stroke="url(#border_glow)" stroke-width="1.5" />
-  <path d="M16 46L24 18H28L36 46H30.8L28.8 38.5H23.2L21.2 46H16ZM24.4 34.2H27.6L26 25.4L24.4 34.2Z" fill="url(#brand_grad)" />
-  <path d="M34 18H44C47.3 18 49.5 20 49.5 23.2C49.5 25.6 48.2 27.4 46 28.1L50.5 46H45.5L41.5 29.5H38.5V46H34V18ZM38.5 25.5H43.5C44.8 25.5 45.5 24.8 45.5 23.7C45.5 22.6 44.8 21.9 43.5 21.9H38.5V25.5Z" fill="url(#brand_grad)" opacity="0.95" />
-  <defs>
-    <linearGradient id="brand_grad" x1="16" y1="18" x2="50" y2="46" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#818cf8" />
-      <stop offset="0.5" stop-color="#c084fc" />
-      <stop offset="1" stop-color="#38bdf8" />
-    </linearGradient>
-    <linearGradient id="border_glow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6366f1" stop-opacity="0.8" />
-      <stop offset="0.5" stop-color="#a855f7" stop-opacity="0.3" />
-      <stop offset="1" stop-color="#38bdf8" stop-opacity="0.8" />
-    </linearGradient>
-  </defs>
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="8" fill="#18181B" stroke="#3F3F46" stroke-width="1.5"/>
+  <path d="M6 24L12 8H15L21 24H17.8L16.4 20H10.6L9.2 24H6ZM11.5 17.2H15.5L13.5 11.5L11.5 17.2Z" fill="#3B82F6"/>
+  <path d="M18 8H23.5C25.4 8 26.8 9.2 26.8 11.1C26.8 12.6 26 13.7 24.6 14.2L27 24H23.8L21.6 14.8H19.5V24H16.8V8H18ZM19.5 12.6H23.2C23.9 12.6 24.3 12.1 24.3 11.4C24.3 10.7 23.9 10.2 23.2 10.2H19.5V12.6Z" fill="#FAFAFA"/>
 </svg>

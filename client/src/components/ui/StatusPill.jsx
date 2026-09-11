@@ -1,19 +1,19 @@
 import React from "react";
 
 const variants = {
+  blue: {
+    bg: "bg-blue-500/10",
+    text: "text-blue-400",
+    border: "border-blue-500/20",
+    dot: "bg-blue-400",
+    glow: "bg-blue-400/30",
+  },
   emerald: {
     bg: "bg-emerald-500/10",
     text: "text-emerald-400",
     border: "border-emerald-500/20",
     dot: "bg-emerald-400",
     glow: "bg-emerald-400/30",
-  },
-  indigo: {
-    bg: "bg-indigo-500/10",
-    text: "text-indigo-400",
-    border: "border-indigo-500/20",
-    dot: "bg-indigo-400",
-    glow: "bg-indigo-400/30",
   },
   amber: {
     bg: "bg-amber-500/10",
@@ -29,45 +29,46 @@ const variants = {
     dot: "bg-rose-400",
     glow: "bg-rose-400/30",
   },
-  sky: {
-    bg: "bg-sky-500/10",
-    text: "text-sky-400",
-    border: "border-sky-500/20",
-    dot: "bg-sky-400",
-    glow: "bg-sky-400/30",
-  },
   slate: {
-    bg: "bg-slate-800/60",
-    text: "text-slate-300",
-    border: "border-slate-700/60",
-    dot: "bg-slate-400",
-    glow: "bg-slate-400/20",
+    bg: "bg-zinc-800",
+    text: "text-zinc-300",
+    border: "border-zinc-700/60",
+    dot: "bg-zinc-400",
+    glow: "bg-zinc-400/20",
+  },
+  // compatibility
+  indigo: {
+    bg: "bg-blue-500/10",
+    text: "text-blue-400",
+    border: "border-blue-500/20",
+    dot: "bg-blue-400",
+    glow: "bg-blue-400/30",
   },
 };
 
 export function StatusPill({
   children,
-  variant = "indigo",
+  variant = "blue",
   pulse = true,
   size = "sm",
   className = "",
 }) {
-  const v = variants[variant] || variants.indigo;
+  const v = variants[variant] || variants.blue;
   const isSm = size === "sm";
 
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full font-medium border ${v.bg} ${v.text} ${v.border} ${
-        isSm ? "px-2.5 py-0.5 text-xs" : "px-3 py-1 text-sm"
+        isSm ? "px-2 py-0.5 text-xs" : "px-3 py-1 text-sm"
       } ${className}`}
     >
-      <span className="relative flex h-2 w-2">
+      <span className="relative flex h-1.5 w-1.5">
         {pulse && (
           <span
             className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${v.glow}`}
           />
         )}
-        <span className={`relative inline-flex rounded-full h-2 w-2 ${v.dot}`} />
+        <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${v.dot}`} />
       </span>
       <span>{children}</span>
     </span>

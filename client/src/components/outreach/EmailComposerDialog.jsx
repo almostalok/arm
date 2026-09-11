@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Send, FileText, Sparkles, Check, Copy, RefreshCw } from "lucide-react";
+import { Send, FileText, Check, Copy } from "lucide-react";
 import { Dialog, Button, Input, Textarea, Label, StatusPill } from "../ui";
 import { outreachTemplates } from "../../lib/mockData";
 import { outreachApi } from "../../lib/services";
@@ -66,7 +66,7 @@ export function EmailComposerDialog({ open, onClose, lead, contact }) {
       description="Select a structured sales playbook template or craft tailored messaging with dynamic merge tags."
       className="max-w-2xl"
     >
-      <div className="space-y-4 pt-2">
+      <div className="space-y-4 pt-1">
         {/* Playbook Template Switcher */}
         <div>
           <Label>Playbook Template</Label>
@@ -76,24 +76,24 @@ export function EmailComposerDialog({ open, onClose, lead, contact }) {
                 key={t.id}
                 type="button"
                 onClick={() => setTemplateId(t.id)}
-                className={`flex flex-col items-start p-2.5 rounded-xl border text-left transition-all cursor-pointer select-none ${
+                className={`flex flex-col items-start p-2.5 rounded-lg border text-left transition-colors cursor-pointer select-none ${
                   templateId === t.id
-                    ? "bg-indigo-600/20 border-indigo-500/50 text-white shadow-sm"
-                    : "bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+                    ? "bg-zinc-800 border-zinc-700 text-zinc-100 shadow-sm"
+                    : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50"
                 }`}
               >
-                <span className="text-xs font-semibold leading-tight">{t.name}</span>
-                <span className="text-[10px] text-slate-500 mt-1">Playbook</span>
+                <span className="text-xs font-medium leading-tight">{t.name}</span>
+                <span className="text-[10px] text-zinc-500 font-mono mt-1">Playbook</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Dynamic Context Pill */}
-        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900 border border-zinc-800">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400">Target Account:</span>
-            <span className="text-xs font-semibold text-indigo-300">
+            <span className="text-xs text-zinc-400">Target Account:</span>
+            <span className="text-xs font-medium text-zinc-200">
               {lead?.company || contact?.company || "Selected Account"}
             </span>
           </div>
@@ -126,12 +126,12 @@ export function EmailComposerDialog({ open, onClose, lead, contact }) {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <Label className="mb-0">Message Body</Label>
-            <span className="text-[10px] font-mono text-slate-500">
-              Available tags: &#123;&#123;firstName&#125;&#125;, &#123;&#123;company&#125;&#125;, &#123;&#123;dealName&#125;&#125;, &#123;&#123;dealValue&#125;&#125;
+            <span className="text-[10px] font-mono text-zinc-500">
+              Tags: &#123;&#123;firstName&#125;&#125;, &#123;&#123;company&#125;&#125;, &#123;&#123;dealName&#125;&#125;, &#123;&#123;dealValue&#125;&#125;
             </span>
           </div>
           <Textarea
-            rows={7}
+            rows={6}
             value={body}
             onChange={(e) => setBody(e.target.value)}
             placeholder="Write message..."
@@ -140,7 +140,7 @@ export function EmailComposerDialog({ open, onClose, lead, contact }) {
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between pt-3 border-t border-slate-800">
+        <div className="flex items-center justify-between pt-3 border-t border-zinc-800">
           <Button
             type="button"
             variant="secondary"
@@ -158,7 +158,7 @@ export function EmailComposerDialog({ open, onClose, lead, contact }) {
             </Button>
             <Button
               type="button"
-              variant="primary"
+              variant="cobalt"
               size="sm"
               loading={sending}
               onClick={handleSend}

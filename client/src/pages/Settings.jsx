@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
   User,
   Lock,
-  CheckCircle2,
-  AlertCircle,
   Shield,
   Mail,
   KeyRound,
   Sliders,
-  DollarSign,
   Radio,
-  Zap,
 } from "lucide-react";
 
 import {
@@ -38,11 +34,11 @@ function SectionIcon({ icon: Icon, className }) {
   return (
     <div
       className={cn(
-        "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20",
+        "flex h-7.5 w-7.5 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-zinc-300 border border-zinc-700/60",
         className
       )}
     >
-      <Icon className="h-4 w-4" />
+      <Icon className="h-3.5 w-3.5" />
     </div>
   );
 }
@@ -76,9 +72,9 @@ function ProfileCard({ user, updateUser }) {
   };
 
   return (
-    <Card className="bg-slate-900/80 border-slate-800">
+    <Card className="bg-zinc-900 border-zinc-800">
       <CardHeader>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <SectionIcon icon={User} />
           <div>
             <CardTitle>Director Profile</CardTitle>
@@ -87,17 +83,17 @@ function ProfileCard({ user, updateUser }) {
         </div>
       </CardHeader>
 
-      <CardContent className="pt-4">
+      <CardContent className="pt-3">
         {/* Avatar preview row */}
-        <div className="mb-5 flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3">
+        <div className="mb-4 flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-950 px-3.5 py-2.5">
           <Avatar name={user?.name || "Alex Carter"} src={user?.avatar} size="lg" />
           <div>
-            <p className="text-sm font-bold text-white font-display">{user?.name || "Alex Carter"}</p>
-            <p className="text-xs text-slate-400 font-mono">{user?.email || "alex@armcrm.io"}</p>
+            <p className="text-sm font-semibold text-zinc-100">{user?.name || "Alex Carter"}</p>
+            <p className="text-xs text-zinc-400 font-mono">{user?.email || "alex@armcrm.io"}</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Field
               label="Full Name"
@@ -116,11 +112,11 @@ function ProfileCard({ user, updateUser }) {
 
             <Field label="Email Address">
               <div className="relative">
-                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                <Mail className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
                 <Input
                   value={user?.email || "alex@armcrm.io"}
                   disabled
-                  className="pl-9 opacity-60 cursor-not-allowed"
+                  className="pl-8 opacity-60 cursor-not-allowed"
                   readOnly
                 />
               </div>
@@ -138,7 +134,7 @@ function ProfileCard({ user, updateUser }) {
             </Field>
           </div>
 
-          <div className="flex justify-end pt-2 border-t border-slate-800">
+          <div className="flex justify-end pt-2 border-t border-zinc-800">
             <Button type="submit" variant="primary" size="sm" loading={isSubmitting}>
               Save Profile
             </Button>
@@ -172,9 +168,9 @@ function SecurityCard() {
   };
 
   return (
-    <Card className="bg-slate-900/80 border-slate-800">
+    <Card className="bg-zinc-900 border-zinc-800">
       <CardHeader>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <SectionIcon icon={Lock} />
           <div>
             <CardTitle>Authentication & Security</CardTitle>
@@ -183,16 +179,16 @@ function SecurityCard() {
         </div>
       </CardHeader>
 
-      <CardContent className="pt-4">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <CardContent className="pt-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Field label="New Password" error={errors.password?.message}>
               <div className="relative">
-                <KeyRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
                 <Input
                   type="password"
                   placeholder="Min. 6 characters"
-                  className="pl-9"
+                  className="pl-8"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -220,7 +216,7 @@ function SecurityCard() {
             </Field>
           </div>
 
-          <div className="flex justify-end pt-2 border-t border-slate-800">
+          <div className="flex justify-end pt-2 border-t border-zinc-800">
             <Button type="submit" variant="secondary" size="sm" loading={isSubmitting}>
               Update Password
             </Button>
@@ -234,9 +230,9 @@ function SecurityCard() {
 /* ── 3. Pipeline & Playbook Preferences ───────────────────────── */
 function PipelinePreferencesCard() {
   return (
-    <Card className="bg-slate-900/80 border-slate-800">
+    <Card className="bg-zinc-900 border-zinc-800">
       <CardHeader>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <SectionIcon icon={Sliders} />
           <div>
             <CardTitle>Sales Operations & Playbook Settings</CardTitle>
@@ -245,38 +241,38 @@ function PipelinePreferencesCard() {
         </div>
       </CardHeader>
 
-      <CardContent className="pt-4 space-y-4">
+      <CardContent className="pt-3 space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
+          <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold text-slate-300">Quarterly Target</span>
+              <span className="text-xs font-medium text-zinc-300">Quarterly Target</span>
               <StatusPill variant="emerald" size="sm">Active</StatusPill>
             </div>
-            <p className="text-lg font-bold text-white font-mono">$1,000,000</p>
-            <p className="text-[10px] text-slate-400 mt-0.5">Annual goal: $4.2M target volume</p>
+            <p className="text-base font-semibold text-zinc-100 font-mono">$1,000,000</p>
+            <p className="text-[10px] text-zinc-400 mt-0.5">Annual goal: $4.2M target volume</p>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
+          <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold text-slate-300">Proposal SLA</span>
-              <StatusPill variant="indigo" size="sm">14 Days</StatusPill>
+              <span className="text-xs font-medium text-zinc-300">Proposal SLA</span>
+              <StatusPill variant="blue" size="sm">14 Days</StatusPill>
             </div>
-            <p className="text-sm font-semibold text-indigo-300 mt-1">Automated Follow-up Alert</p>
-            <p className="text-[10px] text-slate-400 mt-0.5">Flags stalled deals past 14 days in review</p>
+            <p className="text-xs font-medium text-blue-400 mt-1">Automated Follow-up Alert</p>
+            <p className="text-[10px] text-zinc-400 mt-0.5">Flags stalled deals past 14 days in review</p>
           </div>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <Radio className="w-4 h-4" />
+        <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <Radio className="w-3.5 h-3.5" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-white">Outreach Email Gateway</p>
-              <p className="text-[11px] text-slate-400">SMTP / Direct Mail Relay connected</p>
+              <p className="text-xs font-medium text-zinc-200">Outreach Email Gateway</p>
+              <p className="text-[10px] text-zinc-400">SMTP / Direct Mail Relay connected</p>
             </div>
           </div>
-          <span className="text-xs font-mono font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
+          <span className="text-[11px] font-mono font-medium text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
             Connected
           </span>
         </div>
@@ -288,9 +284,9 @@ function PipelinePreferencesCard() {
 /* ── 4. Account info + logout ───────────────────────────────────── */
 function AccountCard({ user, logout }) {
   return (
-    <Card className="bg-slate-900/80 border-slate-800">
+    <Card className="bg-zinc-900 border-zinc-800">
       <CardHeader>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <SectionIcon icon={Shield} />
           <div>
             <CardTitle>Workspace Session</CardTitle>
@@ -299,28 +295,28 @@ function AccountCard({ user, logout }) {
         </div>
       </CardHeader>
 
-      <CardContent className="pt-4">
-        <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3">
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+      <CardContent className="pt-3">
+        <div className="mb-3.5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="rounded-lg border border-zinc-800 bg-zinc-950 px-3.5 py-2.5">
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 font-mono">
               Authorization Role
             </p>
-            <Badge tone="indigo">
+            <Badge tone="blue">
               {user?.role || "Sales Director"}
             </Badge>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3">
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+          <div className="rounded-lg border border-zinc-800 bg-zinc-950 px-3.5 py-2.5">
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 font-mono">
               Account Active Since
             </p>
-            <p className="text-xs font-mono font-semibold text-white">
+            <p className="text-xs font-mono font-medium text-zinc-200">
               {shortDate(user?.createdAt)}
             </p>
           </div>
         </div>
 
-        <div className="flex justify-end pt-2 border-t border-slate-800">
+        <div className="flex justify-end pt-2 border-t border-zinc-800">
           <Button variant="danger" size="sm" onClick={logout}>
             Log Out of Workspace
           </Button>
@@ -334,7 +330,7 @@ export default function Settings() {
   const { user, updateUser, logout } = useAuth();
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-5 max-w-3xl">
       <PageHeader
         title="Workspace Settings"
         subtitle="Manage director profile, sales operations, and security credentials."

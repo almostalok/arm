@@ -2,13 +2,12 @@ import React from "react";
 import { cn, initials } from "../../lib/utils";
 
 const palette = [
-  "from-indigo-600 to-violet-700 text-white border-indigo-400/30",
-  "from-sky-600 to-blue-700 text-white border-sky-400/30",
-  "from-emerald-600 to-teal-700 text-white border-emerald-400/30",
-  "from-amber-600 to-orange-700 text-white border-amber-400/30",
-  "from-rose-600 to-pink-700 text-white border-rose-400/30",
-  "from-violet-600 to-fuchsia-700 text-white border-violet-400/30",
-  "from-cyan-600 to-teal-700 text-white border-cyan-400/30",
+  "bg-zinc-800 text-zinc-200 border-zinc-700",
+  "bg-blue-950/80 text-blue-200 border-blue-800/60",
+  "bg-emerald-950/80 text-emerald-200 border-emerald-800/60",
+  "bg-amber-950/80 text-amber-200 border-amber-800/60",
+  "bg-slate-800 text-slate-200 border-slate-700",
+  "bg-zinc-800 text-zinc-300 border-zinc-700",
 ];
 
 function colorFor(name = "") {
@@ -19,10 +18,10 @@ function colorFor(name = "") {
 
 const sizes = {
   xs: "h-6 w-6 text-[10px]",
-  sm: "h-8 w-8 text-xs",
-  md: "h-9 w-9 text-xs font-semibold",
-  lg: "h-11 w-11 text-sm font-bold",
-  xl: "h-14 w-14 text-base font-bold",
+  sm: "h-7.5 w-7.5 text-xs",
+  md: "h-8.5 w-8.5 text-xs font-medium",
+  lg: "h-10 w-10 text-sm font-semibold",
+  xl: "h-12 w-12 text-base font-semibold",
 };
 
 export function Avatar({ name = "", src, size = "md", status, className }) {
@@ -30,9 +29,9 @@ export function Avatar({ name = "", src, size = "md", status, className }) {
     <div className="relative inline-flex shrink-0">
       <div
         className={cn(
-          "inline-flex items-center justify-center rounded-xl font-display overflow-hidden shrink-0 shadow-sm border",
+          "inline-flex items-center justify-center rounded-lg overflow-hidden shrink-0 shadow-sm border select-none font-sans",
           sizes[size],
-          !src && `bg-gradient-to-br ${colorFor(name)}`,
+          !src && colorFor(name),
           className
         )}
         title={name}
@@ -46,10 +45,10 @@ export function Avatar({ name = "", src, size = "md", status, className }) {
       {status && (
         <span
           className={cn(
-            "absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-slate-950",
-            status === "online" && "bg-emerald-400",
-            status === "busy" && "bg-rose-400",
-            status === "away" && "bg-amber-400"
+            "absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full ring-2 ring-zinc-950",
+            status === "online" && "bg-emerald-500",
+            status === "busy" && "bg-rose-500",
+            status === "away" && "bg-amber-500"
           )}
         />
       )}

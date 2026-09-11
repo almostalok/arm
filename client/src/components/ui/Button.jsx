@@ -4,33 +4,35 @@ import { Loader2 } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 disabled:pointer-events-none disabled:opacity-40 active:scale-[0.97] select-none cursor-pointer",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] select-none cursor-pointer",
   {
     variants: {
       variant: {
         primary:
-          "bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:brightness-110 border border-indigo-400/20",
+          "bg-white text-zinc-950 hover:bg-zinc-200 shadow-sm border border-zinc-200/20 font-medium",
+        cobalt:
+          "bg-blue-600 text-white hover:bg-blue-500 shadow-sm border border-blue-500/30",
         secondary:
-          "bg-slate-800/90 text-slate-200 hover:bg-slate-700/90 hover:text-white border border-slate-700/70 shadow-sm",
+          "bg-zinc-800/90 text-zinc-200 hover:bg-zinc-700 hover:text-white border border-zinc-700/80 shadow-sm",
         outline:
-          "border border-slate-700/80 bg-slate-900/50 text-slate-200 hover:bg-slate-800/80 hover:text-white hover:border-slate-600",
-        ghost: "text-slate-400 hover:text-white hover:bg-slate-800/60",
+          "border border-zinc-700 bg-zinc-900/50 text-zinc-200 hover:bg-zinc-800 hover:text-white hover:border-zinc-600",
+        ghost: "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60",
         danger:
-          "bg-gradient-to-r from-rose-600 to-rose-700 text-white shadow-lg shadow-rose-900/30 hover:bg-rose-500 border border-rose-500/20",
+          "bg-rose-600 text-white hover:bg-rose-500 shadow-sm border border-rose-500/30",
         emerald:
-          "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-900/30 hover:brightness-110 border border-emerald-400/20",
+          "bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm border border-emerald-500/30",
         subtle:
-          "bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20 border border-indigo-500/20",
+          "bg-zinc-800/60 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100 border border-zinc-700/60",
         glass:
-          "bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/10 backdrop-blur-md",
+          "bg-zinc-800/40 hover:bg-zinc-800/80 text-zinc-200 border border-zinc-700/60 backdrop-blur-sm",
       },
       size: {
-        xs: "h-7 px-2.5 text-xs rounded-lg",
-        sm: "h-8.5 px-3 text-xs rounded-lg",
-        md: "h-10 px-4 text-sm rounded-xl",
-        lg: "h-11.5 px-5 text-sm rounded-xl",
-        icon: "h-9.5 w-9.5 p-0 rounded-xl",
-        "icon-sm": "h-8 w-8 p-0 rounded-lg",
+        xs: "h-7 px-2.5 text-xs rounded-md",
+        sm: "h-8 px-3 text-xs rounded-md",
+        md: "h-9 px-3.5 text-sm rounded-lg",
+        lg: "h-10 px-4 text-sm rounded-lg",
+        icon: "h-9 w-9 p-0 rounded-lg",
+        "icon-sm": "h-7.5 w-7.5 p-0 rounded-md",
       },
     },
     defaultVariants: { variant: "primary", size: "md" },

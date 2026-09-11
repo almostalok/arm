@@ -36,8 +36,6 @@ import {
   Drawer,
   Dropdown,
   DropdownItem,
-  NumberTicker,
-  SpotlightCard,
 } from "../components/ui";
 import { contactsApi } from "../lib/services";
 import { relative, shortDate } from "../lib/format";
@@ -72,7 +70,7 @@ function useFlip(dep) {
               { transform: `translate(${dx}px, ${dy}px)` },
               { transform: "translate(0px, 0px)" },
             ],
-            { duration: 300, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+            { duration: 250, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
           );
         }
       });
@@ -208,21 +206,21 @@ export default function Contacts() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <PageHeader
         title="Key Stakeholders & Contacts"
         subtitle="Manage champions, decision makers, and executive relationships."
       >
         <Button variant="primary" size="sm" onClick={openNew} className="gap-1.5">
-          <Plus className="h-4 w-4" /> Add Stakeholder
+          <Plus className="h-3.5 w-3.5" /> Add Stakeholder
         </Button>
       </PageHeader>
 
       {/* KPI strip */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
         <StatTile
           icon={Users}
-          tint="bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+          tint="bg-zinc-800 text-zinc-300 border-zinc-700/60"
           label="Total Contacts"
           value={kpis.total}
         />
@@ -234,32 +232,32 @@ export default function Contacts() {
         />
         <StatTile
           icon={Building2}
-          tint="bg-sky-500/10 text-sky-400 border-sky-500/20"
+          tint="bg-blue-500/10 text-blue-400 border-blue-500/20"
           label="Active Accounts"
           value={kpis.companies}
         />
         <StatTile
           icon={Tag}
-          tint="bg-violet-500/10 text-violet-400 border-violet-500/20"
+          tint="bg-zinc-800 text-zinc-400 border-zinc-700/60"
           label="Segmented Profiles"
           value={kpis.tagged}
         />
       </div>
 
       {/* Toolbar Card */}
-      <Card className="space-y-3 p-4 bg-slate-900/80 border-slate-800">
+      <Card className="space-y-3 p-3.5 bg-zinc-900 border-zinc-800">
         <div className="relative">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
           <input
             value={filters.search}
             onChange={(e) => setFilters({ ...filters, search: e.target.value })}
             placeholder="Search by contact name, email, role, or company..."
-            className="h-9.5 w-full rounded-xl border border-slate-800 bg-slate-950/80 pl-10 pr-4 text-xs text-white placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="h-9 w-full rounded-lg border border-zinc-750 bg-zinc-950 pl-9 pr-3 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
 
         {/* Tag chips + meta row */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
           <TagChip
             label="All"
             count={tagCounts.All}
@@ -282,13 +280,13 @@ export default function Contacts() {
             {filtersActive && (
               <button
                 onClick={() => setFilters({ search: "", tag: "" })}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-white cursor-pointer"
+                className="inline-flex items-center gap-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 cursor-pointer"
               >
-                <X className="h-3.5 w-3.5" /> Clear
+                <X className="h-3 w-3" /> Clear
               </button>
             )}
-            <span className="text-xs text-slate-400 font-mono">
-              <span className="font-bold text-white">{filtered.length}</span> /{" "}
+            <span className="text-xs text-zinc-400 font-mono">
+              <span className="font-semibold text-zinc-100">{filtered.length}</span> /{" "}
               {contacts?.length ?? 0}
             </span>
             <ViewToggle view={view} onChange={setView} />
@@ -298,7 +296,7 @@ export default function Contacts() {
 
       {/* Results */}
       {contacts === null ? (
-        <div className="p-12 text-center text-slate-500 text-sm">Loading contacts...</div>
+        <div className="p-12 text-center text-zinc-500 text-xs font-mono">Loading contacts...</div>
       ) : filtered.length === 0 ? (
         <Card className="p-8">
           <EmptyState
@@ -312,14 +310,14 @@ export default function Contacts() {
             action={
               !filtersActive ? (
                 <Button variant="primary" size="sm" onClick={openNew}>
-                  <Plus className="h-4 w-4" /> Add Stakeholder
+                  <Plus className="h-3.5 w-3.5" /> Add Stakeholder
                 </Button>
               ) : null
             }
           />
         </Card>
       ) : view === "grid" ? (
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3.5">
           {ordered.map((contact) => (
             <ContactCard
               key={contact._id}
@@ -335,20 +333,20 @@ export default function Contacts() {
           ))}
         </div>
       ) : (
-        <Card className="overflow-hidden bg-slate-900/90 border-slate-800">
+        <Card className="overflow-hidden bg-zinc-900 border-zinc-800">
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
-              <thead className="border-b border-slate-800 bg-slate-950/60">
-                <tr className="text-left text-[11px] uppercase tracking-wider text-slate-400">
-                  <th className="px-4 py-3 font-semibold">Stakeholder</th>
-                  <th className="px-4 py-3 font-semibold">Title / Role</th>
-                  <th className="px-4 py-3 font-semibold">Tags</th>
-                  <th className="px-4 py-3 font-semibold">Email</th>
-                  <th className="px-4 py-3 font-semibold">Phone</th>
-                  <th className="px-4 py-3 w-24 text-right" />
+              <thead className="border-b border-zinc-800 bg-zinc-950">
+                <tr className="text-left text-[10px] uppercase tracking-wider text-zinc-400 font-mono">
+                  <th className="px-3 py-2.5 font-medium">Stakeholder</th>
+                  <th className="px-3 py-2.5 font-medium">Title / Role</th>
+                  <th className="px-3 py-2.5 font-medium">Tags</th>
+                  <th className="px-3 py-2.5 font-medium">Email</th>
+                  <th className="px-3 py-2.5 font-medium">Phone</th>
+                  <th className="px-3 py-2.5 w-24 text-right" />
                 </tr>
               </thead>
-              <tbody ref={tableRef} className="divide-y divide-slate-800/60">
+              <tbody ref={tableRef} className="divide-y divide-zinc-800/60">
                 {ordered.map((contact) => (
                   <ContactTableRow
                     key={contact._id}
@@ -409,14 +407,14 @@ export default function Contacts() {
 
 function StatTile({ icon: Icon, label, value, tint }) {
   return (
-    <Card className="p-4 bg-slate-900/60 border-slate-800">
-      <div className="flex items-center gap-3">
-        <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border", tint)}>
-          <Icon className="h-4.5 w-4.5" />
+    <Card className="p-3.5 bg-zinc-900/70 border-zinc-800">
+      <div className="flex items-center gap-2.5">
+        <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border", tint)}>
+          <Icon className="h-4 w-4" />
         </div>
         <div className="min-w-0">
-          <p className="truncate text-xs text-slate-400">{label}</p>
-          <p className="font-display text-lg font-bold text-white font-mono">{value}</p>
+          <p className="truncate text-xs text-zinc-400">{label}</p>
+          <p className="text-base font-semibold text-zinc-100 font-mono">{value}</p>
         </div>
       </div>
     </Card>
@@ -428,17 +426,17 @@ function TagChip({ label, count, active, onClick }) {
     <button
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-xl border px-3 py-1 text-xs font-semibold transition-all cursor-pointer select-none",
+        "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium transition-colors cursor-pointer select-none",
         active
-          ? "border-indigo-500/50 bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-          : "border-slate-800 bg-slate-950 text-slate-400 hover:text-white hover:border-slate-700"
+          ? "border-zinc-700 bg-zinc-800 text-zinc-100 shadow-sm"
+          : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
       )}
     >
       <span>{label}</span>
       <span
         className={cn(
-          "rounded-md px-1.5 py-0.2 text-[10px] font-mono",
-          active ? "bg-white/20 text-white font-bold" : "bg-slate-800 text-slate-400"
+          "rounded px-1.5 py-0.2 text-[10px] font-mono",
+          active ? "bg-zinc-700 text-zinc-200 font-semibold" : "bg-zinc-800 text-zinc-400"
         )}
       >
         {count}
@@ -453,7 +451,7 @@ function ViewToggle({ view, onChange }) {
     { value: "table", icon: Table2, label: "Table view" },
   ];
   return (
-    <div className="flex items-center gap-1 rounded-xl border border-slate-800 bg-slate-950 p-1">
+    <div className="flex items-center gap-0.5 rounded-md border border-zinc-800 bg-zinc-950 p-0.5">
       {options.map(({ value, icon: Icon, label }) => (
         <button
           key={value}
@@ -461,11 +459,11 @@ function ViewToggle({ view, onChange }) {
           title={label}
           aria-label={label}
           className={cn(
-            "flex h-6 w-6 items-center justify-center rounded-lg transition-colors cursor-pointer",
-            view === value ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-white"
+            "flex h-5.5 w-5.5 items-center justify-center rounded transition-colors cursor-pointer",
+            view === value ? "bg-zinc-800 text-zinc-100" : "text-zinc-400 hover:text-zinc-200"
           )}
         >
-          <Icon className="h-3.5 w-3.5" />
+          <Icon className="h-3 w-3" />
         </button>
       ))}
     </div>
@@ -486,30 +484,30 @@ function ContactCard({
     <div
       data-flip-id={flipId}
       onClick={onOpen}
-      className="relative cursor-pointer rounded-2xl border border-slate-800 bg-slate-900/80 p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-700 hover:shadow-xl group"
+      className="relative cursor-pointer rounded-lg border border-zinc-800 bg-zinc-900 p-3.5 transition-colors duration-150 hover:border-zinc-700 group"
     >
       <button
         onClick={(e) => onToggleFavorite(e, contact)}
         disabled={favLoading}
         aria-label={contact.favorite ? "Unmark favorite" : "Mark as favorite"}
-        className="absolute right-3.5 top-3.5 rounded-lg p-1 text-slate-500 transition hover:text-amber-400 cursor-pointer"
+        className="absolute right-3 top-3 rounded p-1 text-zinc-500 transition hover:text-amber-400 cursor-pointer"
       >
         <Star
           className={cn(
-            "h-4 w-4 transition-colors",
+            "h-3.5 w-3.5 transition-colors",
             contact.favorite ? "fill-amber-400 text-amber-400" : ""
           )}
         />
       </button>
 
       <div
-        className="absolute right-3 top-9"
+        className="absolute right-3 top-8"
         onClick={(e) => e.stopPropagation()}
       >
         <Dropdown
           trigger={
-            <button className="rounded-lg p-1 text-slate-500 transition hover:bg-slate-800 hover:text-white cursor-pointer">
-              <MoreHorizontal className="h-4 w-4" />
+            <button className="rounded p-1 text-zinc-500 transition hover:bg-zinc-800 hover:text-zinc-100 cursor-pointer">
+              <MoreHorizontal className="h-3.5 w-3.5" />
             </button>
           }
         >
@@ -525,14 +523,14 @@ function ContactCard({
         </Dropdown>
       </div>
 
-      <div className="flex items-start gap-3 pr-8">
+      <div className="flex items-start gap-2.5 pr-7">
         <Avatar name={contact.name} size="md" />
         <div className="min-w-0">
-          <p className="font-semibold text-white leading-tight truncate text-xs">
+          <p className="font-semibold text-zinc-100 leading-tight truncate text-xs">
             {contact.name}
           </p>
           {(contact.title || contact.company) && (
-            <p className="mt-0.5 text-[11px] text-slate-400 truncate">
+            <p className="mt-0.5 text-[11px] text-zinc-400 truncate">
               {[contact.title, contact.company].filter(Boolean).join(" · ")}
             </p>
           )}
@@ -540,11 +538,11 @@ function ContactCard({
       </div>
 
       {contact.tags?.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1">
+        <div className="mt-2.5 flex flex-wrap gap-1">
           {contact.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20"
+              className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 border border-zinc-750"
             >
               {tag}
             </span>
@@ -552,16 +550,16 @@ function ContactCard({
         </div>
       )}
 
-      <div className="mt-3 space-y-1.5 pt-2 border-t border-slate-800/60">
+      <div className="mt-2.5 space-y-1 pt-2 border-t border-zinc-800">
         {contact.email && (
-          <div className="flex items-center gap-2 text-xs text-slate-300 min-w-0">
-            <Mail className="h-3 w-3 text-slate-500 shrink-0" />
+          <div className="flex items-center gap-2 text-xs text-zinc-300 min-w-0">
+            <Mail className="h-3 w-3 text-zinc-500 shrink-0" />
             <span className="truncate">{contact.email}</span>
           </div>
         )}
         {contact.phone && (
-          <div className="flex items-center gap-2 text-xs text-slate-300">
-            <Phone className="h-3 w-3 text-slate-500 shrink-0" />
+          <div className="flex items-center gap-2 text-xs text-zinc-300">
+            <Phone className="h-3 w-3 text-zinc-500 shrink-0" />
             <span>{contact.phone}</span>
           </div>
         )}
@@ -584,30 +582,30 @@ function ContactTableRow({
     <tr
       data-flip-id={flipId}
       onClick={onOpen}
-      className="group cursor-pointer transition-colors hover:bg-slate-800/50"
+      className="group cursor-pointer transition-colors hover:bg-zinc-800/40"
     >
-      <td className="px-4 py-3">
-        <div className="flex items-center gap-2.5">
+      <td className="px-3 py-2">
+        <div className="flex items-center gap-2">
           <Avatar name={contact.name} size="sm" />
           <div>
-            <p className="font-semibold text-white">{contact.name}</p>
-            <p className="text-[10px] text-slate-400">
+            <p className="font-medium text-zinc-100">{contact.name}</p>
+            <p className="text-[10px] text-zinc-400">
               {contact.company || contact.email || "—"}
             </p>
           </div>
         </div>
       </td>
 
-      <td className="px-4 py-3 text-slate-300">
+      <td className="px-3 py-2 text-zinc-300">
         {contact.title || "—"}
       </td>
 
-      <td className="px-4 py-3">
+      <td className="px-3 py-2">
         <div className="flex flex-wrap gap-1">
           {(contact.tags || []).slice(0, 2).map((tag) => (
             <span
               key={tag}
-              className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20"
+              className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 border border-zinc-750"
             >
               {tag}
             </span>
@@ -615,12 +613,12 @@ function ContactTableRow({
         </div>
       </td>
 
-      <td className="px-4 py-3 text-slate-300">
+      <td className="px-3 py-2 text-zinc-300">
         {contact.email ? (
           <a
             href={`mailto:${contact.email}`}
             onClick={(e) => e.stopPropagation()}
-            className="hover:text-indigo-400 transition-colors"
+            className="hover:text-blue-400 transition-colors"
           >
             {contact.email}
           </a>
@@ -629,16 +627,16 @@ function ContactTableRow({
         )}
       </td>
 
-      <td className="px-4 py-3 text-slate-400 font-mono">
+      <td className="px-3 py-2 text-zinc-400 font-mono text-[11px]">
         {contact.phone || "—"}
       </td>
 
-      <td className="px-4 py-3 text-right" onClick={(e) => e.stopPropagation()}>
+      <td className="px-3 py-2 text-right" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-end gap-1">
           <button
             onClick={() => onEmail(contact)}
             title="Outreach email"
-            className="p-1 rounded-md text-slate-400 hover:text-indigo-400 hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1 rounded text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors cursor-pointer"
           >
             <Mail className="h-3.5 w-3.5" />
           </button>
@@ -646,7 +644,7 @@ function ContactTableRow({
             onClick={(e) => onToggleFavorite(e, contact)}
             disabled={favLoading}
             aria-label={contact.favorite ? "Unmark favorite" : "Mark as favorite"}
-            className="p-1 rounded-md text-slate-500 hover:text-amber-400 cursor-pointer"
+            className="p-1 rounded text-zinc-500 hover:text-amber-400 cursor-pointer"
           >
             <Star
               className={cn(
@@ -657,7 +655,7 @@ function ContactTableRow({
           </button>
           <Dropdown
             trigger={
-              <button className="p-1 rounded-md text-slate-500 hover:bg-slate-800 hover:text-white cursor-pointer">
+              <button className="p-1 rounded text-zinc-500 hover:bg-zinc-800 hover:text-zinc-100 cursor-pointer">
                 <MoreHorizontal className="h-3.5 w-3.5" />
               </button>
             }
@@ -680,30 +678,30 @@ function ContactDrawer({ open, contact, onClose, onEmail, onEdit, onDelete }) {
 
   return (
     <Drawer open={open} onClose={onClose} title="Stakeholder Profile">
-      <div className="space-y-5">
-        <div className="flex items-center gap-4">
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
           <Avatar name={contact.name} size="lg" />
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-white font-display">{contact.name}</h2>
+              <h2 className="text-base font-semibold text-zinc-100">{contact.name}</h2>
               {contact.favorite && (
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400 shrink-0" />
               )}
             </div>
             {(contact.title || contact.company) && (
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-zinc-400 mt-0.5">
                 {[contact.title, contact.company].filter(Boolean).join(" · ")}
               </p>
             )}
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-800 divide-y divide-slate-800/80 bg-slate-950/60 p-1">
+        <div className="rounded-lg border border-zinc-800 divide-y divide-zinc-800 bg-zinc-900 p-1">
           {contact.email && (
             <DrawerRow icon={<Mail className="h-4 w-4" />} label="Email">
               <a
                 href={`mailto:${contact.email}`}
-                className="text-indigo-400 hover:underline"
+                className="text-blue-400 hover:underline"
                 onClick={(e) => e.stopPropagation()}
               >
                 {contact.email}
@@ -712,26 +710,26 @@ function ContactDrawer({ open, contact, onClose, onEmail, onEdit, onDelete }) {
           )}
           {contact.phone && (
             <DrawerRow icon={<Phone className="h-4 w-4" />} label="Phone">
-              <span className="text-slate-200 font-mono">{contact.phone}</span>
+              <span className="text-zinc-200 font-mono">{contact.phone}</span>
             </DrawerRow>
           )}
           {contact.company && (
             <DrawerRow icon={<Building2 className="h-4 w-4" />} label="Company">
-              <span className="text-white font-medium">{contact.company}</span>
+              <span className="text-zinc-100 font-medium">{contact.company}</span>
             </DrawerRow>
           )}
         </div>
 
         {contact.tags?.length > 0 && (
           <div>
-            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+            <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5 font-mono">
               Relationship Tags
             </p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1">
               {contact.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-mono px-2.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20"
+                  className="text-xs font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700"
                 >
                   {tag}
                 </span>
@@ -742,24 +740,24 @@ function ContactDrawer({ open, contact, onClose, onEmail, onEdit, onDelete }) {
 
         {contact.notes && (
           <div>
-            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+            <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5 font-mono">
               Background & Notes
             </p>
-            <p className="text-xs text-slate-200 leading-relaxed whitespace-pre-line rounded-xl bg-slate-900 border border-slate-800 p-3.5">
+            <p className="text-xs text-zinc-200 leading-relaxed whitespace-pre-line rounded-lg bg-zinc-900 border border-zinc-800 p-3">
               {contact.notes}
             </p>
           </div>
         )}
 
-        <div className="flex gap-2 pt-3 border-t border-slate-800">
-          <Button variant="primary" className="flex-1 gap-1.5" onClick={onEmail}>
-            <Send className="h-4 w-4" /> Send Outreach
+        <div className="flex gap-2 pt-3 border-t border-zinc-800">
+          <Button variant="cobalt" className="flex-1 gap-1.5" onClick={onEmail}>
+            <Send className="h-3.5 w-3.5" /> Send Outreach
           </Button>
           <Button variant="secondary" size="sm" onClick={onEdit}>
-            <Pencil className="h-4 w-4" />
+            <Pencil className="h-3.5 w-3.5" />
           </Button>
           <Button variant="danger" size="sm" onClick={onDelete}>
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-3.5 w-3.5" />
           </Button>
         </div>
       </div>
@@ -769,9 +767,9 @@ function ContactDrawer({ open, contact, onClose, onEmail, onEdit, onDelete }) {
 
 function DrawerRow({ icon, label, children }) {
   return (
-    <div className="flex items-center gap-3 px-3.5 py-2.5">
-      <span className="text-slate-400 shrink-0">{icon}</span>
-      <span className="text-xs text-slate-400 w-16 shrink-0 font-medium">{label}</span>
+    <div className="flex items-center gap-3 px-3 py-2">
+      <span className="text-zinc-400 shrink-0">{icon}</span>
+      <span className="text-xs text-zinc-400 w-16 shrink-0 font-medium">{label}</span>
       <span className="text-xs min-w-0 font-medium">{children}</span>
     </div>
   );
@@ -851,7 +849,7 @@ function ContactFormDialog({ open, contact, onClose, onSaved }) {
           : "Add key account contacts and champions."
       }
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-1">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5 pt-1">
         <Field label="Full name" error={errors.name?.message}>
           <Input
             {...register("name", { required: "Name is required" })}
@@ -901,7 +899,7 @@ function ContactFormDialog({ open, contact, onClose, onSaved }) {
           />
         </Field>
 
-        <div className="flex gap-2.5 pt-3 border-t border-slate-800">
+        <div className="flex gap-2 pt-3 border-t border-zinc-800">
           <Button
             type="button"
             variant="ghost"

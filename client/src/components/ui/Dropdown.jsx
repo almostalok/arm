@@ -22,12 +22,12 @@ export function Dropdown({ trigger, children, align = "right", className }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -4 }}
+            initial={{ opacity: 0, scale: 0.98, y: -4 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -4 }}
-            transition={{ duration: 0.15 }}
+            exit={{ opacity: 0, scale: 0.98, y: -4 }}
+            transition={{ duration: 0.12 }}
             className={cn(
-              "absolute z-40 mt-2 min-w-[13rem] rounded-xl border border-slate-700/80 bg-slate-900/95 p-1.5 shadow-2xl shadow-indigo-950/50 backdrop-blur-xl",
+              "absolute z-40 mt-1.5 min-w-[12rem] rounded-lg border border-zinc-750 bg-zinc-900 p-1 shadow-xl shadow-zinc-950/80",
               align === "right" ? "right-0" : "left-0",
               className
             )}
@@ -45,7 +45,7 @@ export function DropdownItem({ className, danger, children, ...props }) {
   return (
     <button
       className={cn(
-        "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-slate-200 transition-colors hover:bg-slate-800 hover:text-white cursor-pointer select-none text-left",
+        "flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-zinc-100 cursor-pointer select-none text-left",
         danger && "text-rose-400 hover:bg-rose-500/10 hover:text-rose-300",
         className
       )}
@@ -58,12 +58,12 @@ export function DropdownItem({ className, danger, children, ...props }) {
 
 export function DropdownLabel({ children }) {
   return (
-    <p className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+    <p className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-500 font-mono">
       {children}
     </p>
   );
 }
 
 export function DropdownSeparator() {
-  return <div className="my-1 h-px bg-slate-800" />;
+  return <div className="my-1 h-px bg-zinc-800" />;
 }

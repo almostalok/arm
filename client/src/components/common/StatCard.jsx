@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowUpRight, ArrowDownRight, TrendingUp } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { SpotlightCard } from "../ui/SpotlightCard";
 import { NumberTicker } from "../ui/NumberTicker";
 import { cn } from "../../lib/utils";
@@ -10,28 +10,28 @@ export function StatCard({ label, value, numericValue, prefix = "", suffix = "",
   return (
     <SpotlightCard
       className={cn(
-        "p-5 transition-all duration-300 relative overflow-hidden group",
+        "p-4 transition-colors relative overflow-hidden group",
         accent
-          ? "bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-violet-950/80 border-indigo-500/40 shadow-indigo-950/50"
-          : "bg-slate-900/60 border-slate-800/80",
+          ? "bg-zinc-900 border-zinc-700/80 shadow-md"
+          : "bg-zinc-900/70 border-zinc-800",
         className
       )}
     >
       <div className="flex items-center justify-between">
         <div
           className={cn(
-            "flex h-10 w-10 items-center justify-center rounded-xl border shadow-inner transition-transform duration-200 group-hover:scale-105",
+            "flex h-8 w-8 items-center justify-center rounded-lg border",
             accent
-              ? "bg-indigo-500/20 text-indigo-300 border-indigo-400/30"
-              : "bg-slate-800/80 text-indigo-400 border-slate-700/60"
+              ? "bg-blue-600/15 text-blue-400 border-blue-500/30"
+              : "bg-zinc-800 text-zinc-300 border-zinc-700/60"
           )}
         >
-          {Icon && <Icon className="h-5 w-5" />}
+          {Icon && <Icon className="h-4 w-4" />}
         </div>
         {trend != null && (
           <span
             className={cn(
-              "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold border",
+              "inline-flex items-center gap-0.5 rounded-md px-2 py-0.5 text-xs font-medium border",
               positive
                 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                 : "bg-rose-500/10 text-rose-400 border-rose-500/20"
@@ -47,28 +47,20 @@ export function StatCard({ label, value, numericValue, prefix = "", suffix = "",
         )}
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3">
         {numericValue !== undefined ? (
           <NumberTicker
             value={numericValue}
             prefix={prefix}
             suffix={suffix}
-            className={cn(
-              "text-2xl font-bold tracking-tight font-display",
-              accent ? "text-white drop-shadow-sm" : "text-white"
-            )}
+            className="text-xl font-semibold tracking-tight text-zinc-100 font-sans"
           />
         ) : (
-          <p
-            className={cn(
-              "text-2xl font-bold tracking-tight font-display",
-              accent ? "text-white drop-shadow-sm" : "text-white"
-            )}
-          >
+          <p className="text-xl font-semibold tracking-tight text-zinc-100 font-sans">
             {value}
           </p>
         )}
-        <p className="mt-1 text-xs font-medium text-slate-400">
+        <p className="mt-0.5 text-xs font-normal text-zinc-400">
           {label}
         </p>
       </div>

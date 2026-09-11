@@ -33,8 +33,6 @@ import {
   Dropdown,
   DropdownItem,
   Tabs,
-  NumberTicker,
-  SpotlightCard,
 } from "../components/ui";
 
 import { tasksApi, leadsApi } from "../lib/services";
@@ -50,14 +48,14 @@ import { cn } from "../lib/utils";
 const PRIORITY_BAR = {
   High: "bg-rose-500",
   Medium: "bg-amber-500",
-  Low: "bg-slate-600",
+  Low: "bg-zinc-600",
 };
 
 const GROUPS = [
   { key: "overdue",   label: "Overdue Actions", labelClass: "text-rose-400",   countClass: "bg-rose-500/10 text-rose-400 border border-rose-500/20" },
   { key: "today",     label: "Due Today",       labelClass: "text-amber-400",  countClass: "bg-amber-500/10 text-amber-400 border border-amber-500/20" },
-  { key: "upcoming",  label: "Upcoming",        labelClass: "text-slate-200",  countClass: "bg-slate-800 text-slate-300 border border-slate-700" },
-  { key: "nodate",    label: "No Due Date",     labelClass: "text-slate-400",  countClass: "bg-slate-800 text-slate-400 border border-slate-700" },
+  { key: "upcoming",  label: "Upcoming",        labelClass: "text-zinc-200",   countClass: "bg-zinc-800 text-zinc-300 border border-zinc-700" },
+  { key: "nodate",    label: "No Due Date",     labelClass: "text-zinc-400",   countClass: "bg-zinc-800 text-zinc-400 border border-zinc-700" },
   { key: "completed", label: "Completed",       labelClass: "text-emerald-400",countClass: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" },
 ];
 
@@ -144,7 +142,7 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
       title={isEdit ? "Edit Task" : "Create Task / Follow-up"}
       description={isEdit ? "Update action item details." : "Schedule a follow-up or operational task."}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-1">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5 pt-1">
         <Field label="Task Title" error={errors.title?.message}>
           <Input
             placeholder="e.g. Host security review call with VP Engineering"
@@ -163,7 +161,7 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
           <Field label="Priority">
             <Select {...register("priority")}>
               {TASK_PRIORITIES.map((p) => (
-                <option key={p} value={p} className="bg-slate-900 text-white">
+                <option key={p} value={p} className="bg-zinc-900 text-zinc-100">
                   {p}
                 </option>
               ))}
@@ -174,7 +172,7 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
         <Field label="Status">
           <Select {...register("status")}>
             {TASK_STATUSES.map((s) => (
-              <option key={s} value={s} className="bg-slate-900 text-white">
+              <option key={s} value={s} className="bg-zinc-900 text-zinc-100">
                 {s}
               </option>
             ))}
@@ -183,16 +181,16 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
 
         <Field label="Linked Deal / Opportunity">
           <Select {...register("relatedLead")}>
-            <option value="" className="bg-slate-900 text-white">No linked opportunity</option>
+            <option value="" className="bg-zinc-900 text-zinc-100">No linked opportunity</option>
             {leads.map((l) => (
-              <option key={l._id} value={l._id} className="bg-slate-900 text-white">
+              <option key={l._id} value={l._id} className="bg-zinc-900 text-zinc-100">
                 {l.name}{l.company ? ` — ${l.company}` : ""}
               </option>
             ))}
           </Select>
         </Field>
 
-        <div className="flex gap-2.5 pt-3 border-t border-slate-800">
+        <div className="flex gap-2 pt-3 border-t border-zinc-800">
           <Button type="button" variant="ghost" className="flex-1" onClick={onClose}>
             Cancel
           </Button>
@@ -212,12 +210,12 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
   const dueToday = task.dueDate ? isToday(new Date(task.dueDate)) : false;
 
   return (
-    <div className="group relative flex items-start gap-3 px-5 py-3.5 transition-colors hover:bg-slate-800/40">
+    <div className="group relative flex items-start gap-3 px-4 py-3 transition-colors hover:bg-zinc-800/40">
       <span
         aria-hidden
         className={cn(
           "absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-full",
-          PRIORITY_BAR[task.priority] ?? "bg-slate-700"
+          PRIORITY_BAR[task.priority] ?? "bg-zinc-700"
         )}
       />
 
@@ -229,8 +227,8 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
           done
             ? "text-emerald-400 hover:text-emerald-300"
             : inProg
-            ? "text-indigo-400 hover:text-indigo-300"
-            : "text-slate-500 hover:text-slate-300"
+            ? "text-blue-400 hover:text-blue-300"
+            : "text-zinc-500 hover:text-zinc-300"
         )}
       >
         {done ? (
@@ -245,15 +243,15 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
       <div className="min-w-0 flex-1">
         <p
           className={cn(
-            "text-xs font-semibold leading-snug",
-            done ? "line-through text-slate-500" : "text-white"
+            "text-xs font-medium leading-snug",
+            done ? "line-through text-zinc-500" : "text-zinc-100"
           )}
         >
           {task.title}
         </p>
 
         {task.description && (
-          <p className="mt-0.5 truncate text-[11px] text-slate-400">{task.description}</p>
+          <p className="mt-0.5 truncate text-[11px] text-zinc-400">{task.description}</p>
         )}
 
         <div className="mt-2 flex flex-wrap items-center gap-1.5">
@@ -265,7 +263,7 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
                   ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
                   : dueToday
                   ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                  : "bg-slate-950 text-slate-400 border-slate-800"
+                  : "bg-zinc-950 text-zinc-400 border-zinc-800"
               )}
             >
               {overdue ? (
@@ -286,7 +284,7 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
           </Badge>
 
           {task.relatedLead && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-indigo-500/10 px-2 py-0.5 text-[10px] font-mono text-indigo-300 border border-indigo-500/20">
+            <span className="inline-flex items-center gap-1 rounded-md bg-zinc-800 px-2 py-0.5 text-[10px] font-mono text-zinc-300 border border-zinc-700">
               <Building2 className="h-3 w-3" />
               {task.relatedLead.name}
             </span>
@@ -297,7 +295,7 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
       <div className="shrink-0 opacity-0 transition-opacity group-hover:opacity-100">
         <Dropdown
           trigger={
-            <button className="rounded-lg p-1 text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+            <button className="rounded p-1 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 cursor-pointer">
               <MoreHorizontal className="h-4 w-4" />
             </button>
           }
@@ -316,11 +314,11 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
 
 function GroupHeader({ label, count, labelClass, countClass }) {
   return (
-    <div className="flex items-center gap-2 border-b border-slate-800/80 bg-slate-950/60 px-5 py-2">
-      <span className={cn("text-[11px] font-bold uppercase tracking-wider", labelClass)}>
+    <div className="flex items-center gap-2 border-b border-zinc-800 bg-zinc-950 px-4 py-1.5">
+      <span className={cn("text-[10px] font-semibold uppercase tracking-wider font-mono", labelClass)}>
         {label}
       </span>
-      <span className={cn("rounded-md px-1.5 py-0.2 text-[10px] font-mono", countClass)}>
+      <span className={cn("rounded px-1.5 py-0.2 text-[10px] font-mono", countClass)}>
         {count}
       </span>
     </div>
@@ -330,16 +328,16 @@ function GroupHeader({ label, count, labelClass, countClass }) {
 function ProgressCard({ completed, total }) {
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
   return (
-    <Card className="px-5 py-4 bg-slate-900/80 border-slate-800">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-semibold text-slate-300">
+    <Card className="px-4 py-3 bg-zinc-900 border-zinc-800">
+      <div className="flex items-center justify-between mb-1.5">
+        <span className="text-xs font-medium text-zinc-300">
           Action Velocity: {completed} of {total} items resolved
         </span>
-        <span className="text-xs font-bold font-mono text-emerald-400">{pct}%</span>
+        <span className="text-xs font-semibold font-mono text-emerald-400">{pct}%</span>
       </div>
-      <div className="h-2 w-full rounded-full bg-slate-950 overflow-hidden border border-slate-800">
+      <div className="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-400 transition-all duration-700"
+          className="h-full rounded-full bg-emerald-500 transition-all duration-500"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -431,15 +429,15 @@ export default function Tasks() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <PageHeader title="Action Items & Follow-ups" subtitle="Stay ahead of deal milestones, customer commitments, and cadences.">
         <Button variant="primary" size="sm" onClick={openNew} className="gap-1.5">
-          <Plus className="h-4 w-4" /> Add Task
+          <Plus className="h-3.5 w-3.5" /> Add Task
         </Button>
       </PageHeader>
 
       {/* KPI stat cards */}
-      <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3.5 xl:grid-cols-4">
         <StatCard label="Total Tasks"     value={stats.total}     icon={CalendarCheck} />
         <StatCard label="Pending Action"  value={stats.pending}   icon={Circle} />
         <StatCard label="Overdue Items"   value={stats.overdue}   icon={AlertTriangle} />
@@ -451,13 +449,13 @@ export default function Tasks() {
       )}
 
       {/* Status filter tabs + grouped task list */}
-      <Card className="overflow-hidden bg-slate-900/90 border-slate-800">
-        <div className="border-b border-slate-800 px-5 py-3 bg-slate-950/40">
+      <Card className="overflow-hidden bg-zinc-900 border-zinc-800">
+        <div className="border-b border-zinc-800 px-4 py-2.5 bg-zinc-950">
           <Tabs value={tab} onChange={setTab} tabs={STATUS_TABS} />
         </div>
 
         {tasks === null ? (
-          <div className="flex items-center justify-center py-16 text-slate-500 text-sm">
+          <div className="flex items-center justify-center py-16 text-zinc-500 text-xs font-mono">
             Loading tasks...
           </div>
         ) : filtered.length === 0 ? (
@@ -472,7 +470,7 @@ export default function Tasks() {
             action={
               tab === "all" ? (
                 <Button variant="primary" size="sm" onClick={openNew}>
-                  <Plus className="h-4 w-4" /> Add Task
+                  <Plus className="h-3.5 w-3.5" /> Add Task
                 </Button>
               ) : null
             }
@@ -487,7 +485,7 @@ export default function Tasks() {
                   labelClass={group.labelClass}
                   countClass={group.countClass}
                 />
-                <div className="divide-y divide-slate-800/60">
+                <div className="divide-y divide-zinc-800/60">
                   {group.tasks.map((task) => (
                     <TaskRow
                       key={task._id}

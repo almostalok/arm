@@ -11,14 +11,12 @@ import {
   Coins,
   ChevronUp,
   ChevronDown,
-  ChevronRight,
   X,
   LayoutGrid,
   Table2,
   Download,
   Building2,
   Mail,
-  Zap,
 } from "lucide-react";
 import { PageHeader } from "../components/common/PageHeader";
 import { EmptyState } from "../components/common/EmptyState";
@@ -34,8 +32,6 @@ import {
   Select,
   Dropdown,
   DropdownItem,
-  NumberTicker,
-  SpotlightCard,
 } from "../components/ui";
 import { leadsApi } from "../lib/services";
 import { currency, relative } from "../lib/format";
@@ -234,22 +230,22 @@ export default function Leads() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <PageHeader title="Opportunities & Accounts" subtitle="Track qualification, deal values, and sales velocity across all leads.">
-        <Button variant="glass" size="sm" onClick={exportCSV} className="gap-1.5">
-          <Download className="h-4 w-4" /> Export CSV
+        <Button variant="secondary" size="sm" onClick={exportCSV} className="gap-1.5">
+          <Download className="h-3.5 w-3.5" /> Export CSV
         </Button>
         <Button variant="primary" size="sm" onClick={openNew} className="gap-1.5">
-          <Plus className="h-4 w-4" /> Add Opportunity
+          <Plus className="h-3.5 w-3.5" /> Add Opportunity
         </Button>
       </PageHeader>
 
       {/* KPI strip */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatTile icon={Users} tint="bg-indigo-500/10 text-indigo-400 border-indigo-500/20" label="Total Accounts" value={kpis.count} />
+      <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
+        <StatTile icon={Users} tint="bg-zinc-800 text-zinc-300 border-zinc-700/60" label="Total Accounts" value={kpis.count} />
         <StatTile
           icon={TrendingUp}
-          tint="bg-sky-500/10 text-sky-400 border-sky-500/20"
+          tint="bg-blue-500/10 text-blue-400 border-blue-500/20"
           label="Open Pipeline"
           value={currency(kpis.openValue, { compact: true })}
         />
@@ -261,22 +257,22 @@ export default function Leads() {
         />
         <StatTile
           icon={Coins}
-          tint="bg-violet-500/10 text-violet-400 border-violet-500/20"
+          tint="bg-amber-500/10 text-amber-400 border-amber-500/20"
           label="Avg Deal Size"
           value={currency(kpis.avg, { compact: true })}
         />
       </div>
 
       {/* Filter & Search Bar */}
-      <Card className="space-y-3 p-4 bg-slate-900/80 border-slate-800">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+      <Card className="space-y-3 p-3.5 bg-zinc-900 border-zinc-800">
+        <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center">
           <div className="relative flex-1">
-            <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
             <input
               value={filters.search}
               onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               placeholder="Search by opportunity, company, or email..."
-              className="h-9.5 w-full rounded-xl border border-slate-800 bg-slate-950/80 pl-10 pr-4 text-xs text-white placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="h-9 w-full rounded-lg border border-zinc-750 bg-zinc-950 pl-9 pr-3 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
           <div className="grid grid-cols-2 gap-2 lg:flex">
@@ -296,7 +292,7 @@ export default function Leads() {
         </div>
 
         {/* Stage quick-filter chips */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
           <StageChip
             label="All"
             count={stageCounts.All}
@@ -318,13 +314,13 @@ export default function Leads() {
             {filtersActive && (
               <button
                 onClick={() => setFilters({ status: "", priority: "", source: "", search: "" })}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-white cursor-pointer"
+                className="inline-flex items-center gap-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 cursor-pointer"
               >
-                <X className="h-3.5 w-3.5" /> Clear Filters
+                <X className="h-3 w-3" /> Clear
               </button>
             )}
-            <span className="text-xs text-slate-400 font-mono">
-              <span className="font-bold text-white">{sorted.length}</span> / {leads?.length ?? 0}
+            <span className="text-xs text-zinc-400 font-mono">
+              <span className="font-semibold text-zinc-100">{sorted.length}</span> / {leads?.length ?? 0}
             </span>
             <ViewToggle view={view} onChange={setView} />
           </div>
@@ -333,7 +329,7 @@ export default function Leads() {
 
       {/* Results */}
       {leads === null ? (
-        <div className="p-12 text-center text-slate-500 text-sm">Loading opportunities...</div>
+        <div className="p-12 text-center text-zinc-500 text-xs font-mono">Loading opportunities...</div>
       ) : sorted.length === 0 ? (
         <Card className="p-8">
           <EmptyState
@@ -346,13 +342,13 @@ export default function Leads() {
             }
             action={
               <Button variant="primary" size="sm" onClick={openNew}>
-                <Plus className="h-4 w-4" /> Add Opportunity
+                <Plus className="h-3.5 w-3.5" /> Add Opportunity
               </Button>
             }
           />
         </Card>
       ) : view === "grid" ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 xl:grid-cols-3">
           {sorted.map((l) => (
             <LeadGridCard
               key={l._id}
@@ -367,30 +363,30 @@ export default function Leads() {
           ))}
         </div>
       ) : (
-        <Card className="overflow-hidden bg-slate-900/90 border-slate-800">
+        <Card className="overflow-hidden bg-zinc-900 border-zinc-800">
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
-              <thead className="border-b border-slate-800 bg-slate-950/60">
-                <tr className="text-left text-[11px] uppercase tracking-wider text-slate-400">
-                  <th className="w-12 pl-4">
+              <thead className="border-b border-zinc-800 bg-zinc-950">
+                <tr className="text-left text-[10px] uppercase tracking-wider text-zinc-400 font-mono">
+                  <th className="w-10 pl-3">
                     <input
                       type="checkbox"
                       checked={allVisibleSelected}
                       onChange={toggleAll}
-                      className="h-3.5 w-3.5 rounded border-slate-700 accent-indigo-600 cursor-pointer"
+                      className="h-3.5 w-3.5 rounded border-zinc-700 accent-blue-600 cursor-pointer"
                       aria-label="Select all"
                     />
                   </th>
                   <SortTh label="Opportunity" k="name" sort={sort} onSort={toggleSort} />
-                  <th className="px-4 py-3 font-semibold">Stage</th>
-                  <th className="px-4 py-3 font-semibold">Priority</th>
-                  <th className="px-4 py-3 font-semibold">Channel</th>
+                  <th className="px-3 py-2.5 font-medium">Stage</th>
+                  <th className="px-3 py-2.5 font-medium">Priority</th>
+                  <th className="px-3 py-2.5 font-medium">Channel</th>
                   <SortTh label="Value" k="value" sort={sort} onSort={toggleSort} align="right" />
                   <SortTh label="Updated" k="updatedAt" sort={sort} onSort={toggleSort} />
-                  <th className="px-4 py-3" />
+                  <th className="px-3 py-2.5" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-zinc-800/60">
                 {sorted.map((l) => {
                   const stage = STAGE_STYLES[l.status] || STAGE_STYLES.New;
                   const isSel = selected.has(l._id);
@@ -400,56 +396,56 @@ export default function Leads() {
                       onClick={() => setDrawerLead(l)}
                       className={cn(
                         "group cursor-pointer transition-colors",
-                        isSel ? "bg-indigo-950/30" : "hover:bg-slate-800/50"
+                        isSel ? "bg-zinc-800/60" : "hover:bg-zinc-800/40"
                       )}
                     >
-                      <td className="pl-4" onClick={(e) => e.stopPropagation()}>
+                      <td className="pl-3" onClick={(e) => e.stopPropagation()}>
                         <input
                           type="checkbox"
                           checked={isSel}
                           onChange={() => toggleRow(l._id)}
-                          className="h-3.5 w-3.5 rounded border-slate-700 accent-indigo-600 cursor-pointer"
+                          className="h-3.5 w-3.5 rounded border-zinc-700 accent-blue-600 cursor-pointer"
                           aria-label={`Select ${l.name}`}
                         />
                       </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2.5">
+                      <td className="px-3 py-2">
+                        <div className="flex items-center gap-2">
                           <Avatar name={l.company || l.name} size="sm" />
                           <div>
-                            <p className="font-semibold text-white">{l.name}</p>
-                            <p className="text-[10px] text-slate-400">
+                            <p className="font-medium text-zinc-100">{l.name}</p>
+                            <p className="text-[10px] text-zinc-400">
                               {l.company || l.email || "—"}
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-2">
                         <Badge className={stage.badge} dot={stage.dot}>
                           {l.status}
                         </Badge>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-2">
                         <Badge className={PRIORITY_STYLES[l.priority]}>{l.priority}</Badge>
                       </td>
-                      <td className="px-4 py-3 text-slate-400 font-medium">
+                      <td className="px-3 py-2 text-zinc-400 font-normal">
                         {l.source}
                       </td>
-                      <td className="px-4 py-3 text-right font-bold text-white font-mono">
+                      <td className="px-3 py-2 text-right font-semibold text-zinc-100 font-mono">
                         {currency(l.value)}
                       </td>
-                      <td className="px-4 py-3 text-slate-400 font-mono text-[11px]">{relative(l.updatedAt)}</td>
-                      <td className="px-4 py-3 text-right" onClick={(e) => e.stopPropagation()}>
+                      <td className="px-3 py-2 text-zinc-400 font-mono text-[10px]">{relative(l.updatedAt)}</td>
+                      <td className="px-3 py-2 text-right" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => setEmailLead(l)}
                             title="Outreach email"
-                            className="p-1 rounded-md text-slate-400 hover:text-indigo-400 hover:bg-slate-800 transition-colors cursor-pointer"
+                            className="p-1 rounded text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors cursor-pointer"
                           >
                             <Mail className="h-3.5 w-3.5" />
                           </button>
                           <Dropdown
                             trigger={
-                              <button className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer">
+                              <button className="p-1 rounded text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors cursor-pointer">
                                 <MoreHorizontal className="h-3.5 w-3.5" />
                               </button>
                             }
@@ -474,18 +470,18 @@ export default function Leads() {
 
       {/* Floating bulk action bar */}
       {selected.size > 0 && (
-        <div className="fixed bottom-6 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 rounded-2xl border border-slate-700 bg-slate-900/95 px-4 py-2.5 shadow-2xl shadow-slate-950/80 backdrop-blur-xl">
-          <span className="text-xs font-semibold text-white font-mono">
+        <div className="fixed bottom-6 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-3.5 py-2 shadow-2xl">
+          <span className="text-xs font-semibold text-zinc-100 font-mono">
             {selected.size} selected
           </span>
           <button
             onClick={() => setSelected(new Set())}
-            className="text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors cursor-pointer"
           >
             Clear
           </button>
           <Button size="xs" variant="danger" onClick={() => setBulkOpen(true)}>
-            <Trash2 className="h-3.5 w-3.5" /> Delete
+            <Trash2 className="h-3 w-3" /> Delete
           </Button>
         </div>
       )}
@@ -535,7 +531,7 @@ function ViewToggle({ view, onChange }) {
     { value: "grid", icon: LayoutGrid, label: "Card view" },
   ];
   return (
-    <div className="flex items-center gap-1 rounded-xl border border-slate-800 bg-slate-950 p-1">
+    <div className="flex items-center gap-0.5 rounded-md border border-zinc-800 bg-zinc-950 p-0.5">
       {options.map(({ value, icon: Icon, label }) => (
         <button
           key={value}
@@ -543,11 +539,11 @@ function ViewToggle({ view, onChange }) {
           title={label}
           aria-label={label}
           className={cn(
-            "flex h-6 w-6 items-center justify-center rounded-lg transition-colors cursor-pointer",
-            view === value ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-white"
+            "flex h-5.5 w-5.5 items-center justify-center rounded transition-colors cursor-pointer",
+            view === value ? "bg-zinc-800 text-zinc-100" : "text-zinc-400 hover:text-zinc-200"
           )}
         >
-          <Icon className="h-3.5 w-3.5" />
+          <Icon className="h-3 w-3" />
         </button>
       ))}
     </div>
@@ -560,16 +556,16 @@ function LeadGridCard({ lead, selected, onToggle, onOpen, onEmail, onEdit, onDel
     <div
       onClick={onOpen}
       className={cn(
-        "group relative cursor-pointer rounded-2xl border bg-slate-900/80 p-4 transition-all duration-200 hover:border-slate-700 hover:shadow-xl",
-        selected ? "border-indigo-500 ring-1 ring-indigo-500" : "border-slate-800"
+        "group relative cursor-pointer rounded-lg border bg-zinc-900 p-3.5 transition-colors duration-150",
+        selected ? "border-blue-500 ring-1 ring-blue-500" : "border-zinc-800 hover:border-zinc-700"
       )}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-2.5">
+      <div className="flex items-start justify-between gap-2.5">
+        <div className="flex min-w-0 items-center gap-2">
           <Avatar name={lead.company || lead.name} size="md" />
           <div className="min-w-0">
-            <p className="truncate text-xs font-bold text-white font-display">{lead.name}</p>
-            <p className="flex items-center gap-1 truncate text-[10px] text-slate-400">
+            <p className="truncate text-xs font-semibold text-zinc-100">{lead.name}</p>
+            <p className="flex items-center gap-1 truncate text-[10px] text-zinc-400">
               <Building2 className="h-2.5 w-2.5 shrink-0" /> {lead.company || "Direct Account"}
             </p>
           </div>
@@ -577,14 +573,14 @@ function LeadGridCard({ lead, selected, onToggle, onOpen, onEmail, onEdit, onDel
         <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={() => onEmail?.()}
-            className="p-1 rounded-lg text-slate-400 hover:text-indigo-400 hover:bg-slate-800"
+            className="p-1 rounded text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
             title="Outreach"
           >
             <Mail className="h-3.5 w-3.5" />
           </button>
           <Dropdown
             trigger={
-              <button className="rounded-lg p-1 text-slate-400 hover:text-white hover:bg-slate-800">
+              <button className="rounded p-1 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">
                 <MoreHorizontal className="h-3.5 w-3.5" />
               </button>
             }
@@ -599,22 +595,22 @@ function LeadGridCard({ lead, selected, onToggle, onOpen, onEmail, onEdit, onDel
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+      <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
         <Badge className={stage.badge} dot={stage.dot}>
           {lead.status}
         </Badge>
         <Badge className={PRIORITY_STYLES[lead.priority]}>{lead.priority}</Badge>
-        <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+        <span className="text-[10px] font-mono text-zinc-400 bg-zinc-950 px-1.5 py-0.2 rounded border border-zinc-800">
           {lead.source}
         </span>
       </div>
 
-      <div className="mt-3 flex items-end justify-between border-t border-slate-800/80 pt-3">
+      <div className="mt-2.5 flex items-end justify-between border-t border-zinc-800 pt-2.5">
         <div>
-          <p className="text-[10px] uppercase font-semibold text-slate-400">Valuation</p>
-          <p className="font-display text-base font-bold text-white font-mono">{currency(lead.value)}</p>
+          <p className="text-[10px] uppercase font-medium text-zinc-400 font-mono">Valuation</p>
+          <p className="text-sm font-semibold text-zinc-100 font-mono">{currency(lead.value)}</p>
         </div>
-        <span className="text-[10px] text-slate-500 font-mono">{relative(lead.updatedAt)}</span>
+        <span className="text-[10px] text-zinc-500 font-mono">{relative(lead.updatedAt)}</span>
       </div>
     </div>
   );
@@ -622,14 +618,14 @@ function LeadGridCard({ lead, selected, onToggle, onOpen, onEmail, onEdit, onDel
 
 function StatTile({ icon: Icon, label, value, tint }) {
   return (
-    <Card className="p-4 bg-slate-900/60 border-slate-800">
-      <div className="flex items-center gap-3">
-        <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border", tint)}>
-          <Icon className="h-4.5 w-4.5" />
+    <Card className="p-3.5 bg-zinc-900/70 border-zinc-800">
+      <div className="flex items-center gap-2.5">
+        <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border", tint)}>
+          <Icon className="h-4 w-4" />
         </div>
         <div className="min-w-0">
-          <p className="truncate text-xs text-slate-400">{label}</p>
-          <p className="font-display text-lg font-bold text-white font-mono">{value}</p>
+          <p className="truncate text-xs text-zinc-400">{label}</p>
+          <p className="text-base font-semibold text-zinc-100 font-mono">{value}</p>
         </div>
       </div>
     </Card>
@@ -641,18 +637,18 @@ function StageChip({ label, count, dot, active, onClick }) {
     <button
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-xl border px-3 py-1 text-xs font-semibold transition-all cursor-pointer select-none",
+        "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium transition-colors cursor-pointer select-none",
         active
-          ? "border-indigo-500/50 bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-          : "border-slate-800 bg-slate-950 text-slate-400 hover:text-white hover:border-slate-700"
+          ? "border-zinc-700 bg-zinc-800 text-zinc-100 shadow-sm"
+          : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
       )}
     >
       {dot && <span className={cn("h-1.5 w-1.5 rounded-full", active ? "bg-white" : dot)} />}
       <span>{label}</span>
       <span
         className={cn(
-          "rounded-md px-1.5 py-0.2 text-[10px] font-mono",
-          active ? "bg-white/20 text-white font-bold" : "bg-slate-800 text-slate-400"
+          "rounded px-1.5 py-0.2 text-[10px] font-mono",
+          active ? "bg-zinc-700 text-zinc-200 font-semibold" : "bg-zinc-800 text-zinc-400"
         )}
       >
         {count}
@@ -664,16 +660,16 @@ function StageChip({ label, count, dot, active, onClick }) {
 function SortTh({ label, k, sort, onSort, align = "left" }) {
   const active = sort.key === k;
   return (
-    <th className={cn("px-4 py-3 font-semibold", align === "right" && "text-right")}>
+    <th className={cn("px-3 py-2.5 font-medium", align === "right" && "text-right")}>
       <button
         onClick={() => onSort(k)}
         className={cn(
-          "inline-flex items-center gap-1 transition-colors hover:text-white cursor-pointer",
-          active && "text-white"
+          "inline-flex items-center gap-1 transition-colors hover:text-zinc-100 cursor-pointer",
+          active && "text-zinc-100"
         )}
       >
         {label}
-        <span className="text-slate-500">
+        <span className="text-zinc-500">
           {active ? (
             sort.dir === "asc" ? (
               <ChevronUp className="h-3 w-3" />
@@ -691,10 +687,10 @@ function SortTh({ label, k, sort, onSort, align = "left" }) {
 
 function Filter({ value, onChange, all, options }) {
   return (
-    <Select value={value} onChange={(e) => onChange(e.target.value)} className="lg:w-36 text-xs h-9.5">
+    <Select value={value} onChange={(e) => onChange(e.target.value)} className="lg:w-36 text-xs h-9">
       <option value="">{all}</option>
       {options.map((o) => (
-        <option key={o} value={o} className="bg-slate-900 text-white">
+        <option key={o} value={o} className="bg-zinc-900 text-zinc-100">
           {o}
         </option>
       ))}

@@ -36,7 +36,7 @@ export function NumberTicker({
     : Math.round(displayValue).toLocaleString();
 
   return (
-    <span className={`inline-flex items-baseline font-display font-bold tabular-nums tracking-tight ${className}`}>
+    <span className={`inline-flex items-baseline font-sans font-semibold tabular-nums tracking-tight ${className}`}>
       {prefix}
       {formatted}
       {suffix}

@@ -1,56 +1,55 @@
 import React from "react";
 
+/**
+ * Enterprise geometric monogram logo for ARM (Account & Relationship Manager).
+ * Clean, architectural, non-AI styling inspired by Linear / Stripe / Ramp.
+ */
 export function Logo({ size = "md", showText = true, className = "" }) {
   const sizeMap = {
-    sm: { icon: "h-7 w-7", text: "text-base", sub: "text-[10px]" },
-    md: { icon: "h-9 w-9", text: "text-lg", sub: "text-[11px]" },
-    lg: { icon: "h-11 w-11", text: "text-xl", sub: "text-xs" },
-    xl: { icon: "h-14 w-14", text: "text-2xl", sub: "text-sm" },
+    sm: { icon: "h-7 w-7", text: "text-sm", sub: "text-[10px]" },
+    md: { icon: "h-8 w-8", text: "text-base", sub: "text-[11px]" },
+    lg: { icon: "h-10 w-10", text: "text-lg", sub: "text-xs" },
+    xl: { icon: "h-12 w-12", text: "text-xl", sub: "text-sm" },
   };
 
   const { icon, text, sub } = sizeMap[size] || sizeMap.md;
 
   return (
-    <div className={`flex items-center gap-3 select-none ${className}`}>
-      {/* High-tech metallic glow icon container */}
-      <div className={`relative ${icon} rounded-xl bg-gradient-to-br from-slate-900 to-slate-950 p-[1px] shadow-lg shadow-indigo-950/40 border border-slate-700/60 flex items-center justify-center overflow-hidden group`}>
-        <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-violet-500/10 to-sky-400/20 opacity-80 group-hover:opacity-100 transition-opacity" />
+    <div className={`flex items-center gap-2.5 select-none ${className}`}>
+      {/* Precision Geometric Monogram Icon */}
+      <div
+        className={`relative ${icon} rounded-lg bg-zinc-900 border border-zinc-700/70 flex items-center justify-center overflow-hidden shrink-0 shadow-sm`}
+      >
         <svg
-          viewBox="0 0 64 64"
-          className="w-full h-full p-1.5 relative z-10 drop-shadow-[0_2px_8px_rgba(99,102,241,0.5)]"
+          viewBox="0 0 32 32"
+          className="w-full h-full p-1"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
+          {/* Architectural ARM Interlocking Structure */}
           <path
-            d="M16 46L24 18H28L36 46H30.8L28.8 38.5H23.2L21.2 46H16ZM24.4 34.2H27.6L26 25.4L24.4 34.2Z"
-            fill="url(#logo_grad)"
+            d="M6 24L12 8H15L21 24H17.8L16.4 20H10.6L9.2 24H6ZM11.5 17.2H15.5L13.5 11.5L11.5 17.2Z"
+            fill="#3B82F6"
           />
           <path
-            d="M34 18H44C47.3 18 49.5 20 49.5 23.2C49.5 25.6 48.2 27.4 46 28.1L50.5 46H45.5L41.5 29.5H38.5V46H34V18ZM38.5 25.5H43.5C44.8 25.5 45.5 24.8 45.5 23.7C45.5 22.6 44.8 21.9 43.5 21.9H38.5V25.5Z"
-            fill="url(#logo_grad)"
+            d="M18 8H23.5C25.4 8 26.8 9.2 26.8 11.1C26.8 12.6 26 13.7 24.6 14.2L27 24H23.8L21.6 14.8H19.5V24H16.8V8H18ZM19.5 12.6H23.2C23.9 12.6 24.3 12.1 24.3 11.4C24.3 10.7 23.9 10.2 23.2 10.2H19.5V12.6Z"
+            fill="#FAFAFA"
           />
-          <defs>
-            <linearGradient id="logo_grad" x1="16" y1="18" x2="50" y2="46" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#818cf8" />
-              <stop offset="0.5" stopColor="#c084fc" />
-              <stop offset="1" stopColor="#38bdf8" />
-            </linearGradient>
-          </defs>
         </svg>
       </div>
 
       {showText && (
-        <div className="flex flex-col leading-none">
+        <div className="flex flex-col leading-tight">
           <div className="flex items-center gap-1.5">
-            <span className={`font-display font-extrabold tracking-tight text-white ${text}`}>
+            <span className={`font-semibold tracking-tight text-zinc-100 ${text}`}>
               ARM
             </span>
-            <span className="text-[10px] uppercase font-mono tracking-wider font-semibold px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-              PRO
+            <span className="text-[9px] uppercase font-mono tracking-wider font-semibold px-1 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">
+              OPERATIONS
             </span>
           </div>
-          <span className={`text-slate-400 font-medium tracking-wide mt-0.5 ${sub}`}>
-            Relationship Workspace
+          <span className={`text-zinc-400 font-normal tracking-normal ${sub}`}>
+            Account & Relationship
           </span>
         </div>
       )}

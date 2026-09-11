@@ -24,7 +24,6 @@ import {
   Textarea,
   Select,
   Field,
-  Badge,
   Dialog,
   Dropdown,
   DropdownItem,
@@ -35,14 +34,14 @@ import { cn } from "../lib/utils";
 
 function StatTile({ icon: Icon, label, value, tint }) {
   return (
-    <Card className="p-4 bg-slate-900/60 border-slate-800">
-      <div className="flex items-center gap-3">
-        <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border", tint)}>
-          <Icon className="h-4.5 w-4.5" />
+    <Card className="p-3.5 bg-zinc-900/70 border-zinc-800">
+      <div className="flex items-center gap-2.5">
+        <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border", tint)}>
+          <Icon className="h-4 w-4" />
         </div>
         <div className="min-w-0">
-          <p className="truncate text-xs text-slate-400">{label}</p>
-          <p className="font-display text-lg font-bold text-white font-mono">{value}</p>
+          <p className="truncate text-xs text-zinc-400">{label}</p>
+          <p className="text-base font-semibold text-zinc-100 font-mono">{value}</p>
         </div>
       </div>
     </Card>
@@ -54,17 +53,17 @@ function FilterChip({ label, count, active, onClick }) {
     <button
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-xl border px-3 py-1 text-xs font-semibold transition-all cursor-pointer select-none",
+        "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium transition-colors cursor-pointer select-none",
         active
-          ? "border-indigo-500/50 bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-          : "border-slate-800 bg-slate-950 text-slate-400 hover:text-white hover:border-slate-700"
+          ? "border-zinc-700 bg-zinc-800 text-zinc-100 shadow-sm"
+          : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
       )}
     >
       <span>{label}</span>
       <span
         className={cn(
-          "rounded-md px-1.5 py-0.2 text-[10px] font-mono",
-          active ? "bg-white/20 text-white font-bold" : "bg-slate-800 text-slate-400"
+          "rounded px-1.5 py-0.2 text-[10px] font-mono",
+          active ? "bg-zinc-700 text-zinc-200 font-semibold" : "bg-zinc-800 text-zinc-400"
         )}
       >
         {count}
@@ -79,44 +78,44 @@ function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
   return (
     <div
       className={cn(
-        "break-inside-avoid relative flex flex-col gap-3 overflow-hidden rounded-2xl bg-slate-900/80 p-4.5 mb-4",
-        "border border-slate-800 shadow-lg transition-all duration-200 hover:border-slate-700 hover:shadow-xl",
-        note.pinned && "border-indigo-500/40 ring-1 ring-indigo-500/30 bg-slate-900/95"
+        "break-inside-avoid relative flex flex-col gap-2.5 overflow-hidden rounded-lg bg-zinc-900 p-3.5 mb-3.5",
+        "border border-zinc-800 transition-colors duration-150 hover:border-zinc-700",
+        note.pinned && "border-blue-500/40 ring-1 ring-blue-500/20 bg-zinc-900"
       )}
     >
       {note.pinned && (
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-sky-400" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-blue-600" />
       )}
 
       {note.pinned && (
-        <span className="absolute right-3.5 top-3 flex h-5 w-5 items-center justify-center rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-          <Pin className="h-3 w-3" aria-label="Pinned" />
+        <span className="absolute right-3 top-3 flex h-4.5 w-4.5 items-center justify-center rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
+          <Pin className="h-2.5 w-2.5" aria-label="Pinned" />
         </span>
       )}
 
-      <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-200 pr-6 font-normal">
+      <p className="whitespace-pre-wrap text-xs leading-relaxed text-zinc-200 pr-5 font-normal">
         {note.content}
       </p>
 
-      <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/60">
-        <div className="flex min-w-0 flex-wrap items-center gap-2">
+      <div className="flex items-center justify-between gap-2 pt-2 border-t border-zinc-800">
+        <div className="flex min-w-0 flex-wrap items-center gap-1.5">
           {entity && (
-            <span className="inline-flex items-center gap-1 bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 text-[10px] font-mono px-2 py-0.5 rounded-md max-w-[170px] truncate">
+            <span className="inline-flex items-center gap-1 bg-zinc-800 text-zinc-300 border border-zinc-700 text-[10px] font-mono px-1.5 py-0.5 rounded max-w-[160px] truncate">
               <Building2 className="h-2.5 w-2.5 shrink-0" />
               <span className="truncate">{entity.name}</span>
             </span>
           )}
-          <span className="text-[10px] text-slate-500 font-mono">{relative(note.createdAt)}</span>
+          <span className="text-[10px] text-zinc-500 font-mono">{relative(note.createdAt)}</span>
         </div>
 
         <div onClick={(e) => e.stopPropagation()} className="shrink-0">
           <Dropdown
             trigger={
               <button
-                className="rounded-lg p-1 text-slate-500 transition hover:bg-slate-800 hover:text-white cursor-pointer"
+                className="rounded p-1 text-zinc-500 transition hover:bg-zinc-800 hover:text-zinc-100 cursor-pointer"
                 aria-label="Note options"
               >
-                <MoreHorizontal className="h-4 w-4" />
+                <MoreHorizontal className="h-3.5 w-3.5" />
               </button>
             }
           >
@@ -194,7 +193,7 @@ function NoteFormDialog({ open, onClose, note, leads, onSaved }) {
         isEditing ? "Update your meeting context or note." : "Record call logs, meeting recaps, or key deal requirements."
       }
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3.5 mt-1">
         <Field label="Note Content" error={errors.content?.message}>
           <Textarea
             rows={5}
@@ -205,24 +204,24 @@ function NoteFormDialog({ open, onClose, note, leads, onSaved }) {
 
         <Field label="Link to Deal / Opportunity">
           <Select {...register("lead")}>
-            <option value="" className="bg-slate-900 text-white">No linked opportunity</option>
+            <option value="" className="bg-zinc-900 text-zinc-100">No linked opportunity</option>
             {leads.map((l) => (
-              <option key={l._id} value={l._id} className="bg-slate-900 text-white">
+              <option key={l._id} value={l._id} className="bg-zinc-900 text-zinc-100">
                 {l.name}{l.company ? ` — ${l.company}` : ""}
               </option>
             ))}
           </Select>
         </Field>
 
-        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 transition hover:bg-slate-900 select-none">
-          <input type="checkbox" className="h-4 w-4 rounded accent-indigo-600 cursor-pointer" {...register("pinned")} />
+        <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-950 px-3.5 py-2.5 transition hover:bg-zinc-900 select-none">
+          <input type="checkbox" className="h-3.5 w-3.5 rounded border-zinc-700 accent-blue-600 cursor-pointer" {...register("pinned")} />
           <div>
-            <p className="text-xs font-semibold text-white">Pin this note</p>
-            <p className="text-[11px] text-slate-400">Pinned notes remain highlighted at the top of your workspace.</p>
+            <p className="text-xs font-medium text-zinc-200">Pin this note</p>
+            <p className="text-[10px] text-zinc-400">Pinned notes remain highlighted at the top of your workspace.</p>
           </div>
         </label>
 
-        <div className="flex gap-2.5 pt-2 border-t border-slate-800">
+        <div className="flex gap-2 pt-2 border-t border-zinc-800">
           <Button type="button" variant="ghost" className="flex-1" onClick={onClose}>
             Cancel
           </Button>
@@ -322,18 +321,18 @@ export default function Notes() {
   const clearAll = () => { setSearch(""); setFilter("all"); };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <PageHeader title="Opportunity Notes & Meeting Logs" subtitle="Capture crucial requirements, decision timelines, and client feedback.">
         <Button variant="primary" size="sm" onClick={openNew} className="gap-1.5">
-          <Plus className="h-4 w-4" /> Add Note
+          <Plus className="h-3.5 w-3.5" /> Add Note
         </Button>
       </PageHeader>
 
       {/* KPI strip */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
         <StatTile
           icon={StickyNote}
-          tint="bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+          tint="bg-zinc-800 text-zinc-300 border-zinc-700/60"
           label="Total Notes"
           value={kpis.total}
         />
@@ -345,31 +344,31 @@ export default function Notes() {
         />
         <StatTile
           icon={Link2}
-          tint="bg-sky-500/10 text-sky-400 border-sky-500/20"
+          tint="bg-blue-500/10 text-blue-400 border-blue-500/20"
           label="Linked Deals"
           value={kpis.linked}
         />
         <StatTile
           icon={FileText}
-          tint="bg-slate-800 text-slate-300 border-slate-700"
+          tint="bg-zinc-800 text-zinc-400 border-zinc-700/60"
           label="General Logs"
           value={kpis.unlinked}
         />
       </div>
 
       {/* Toolbar */}
-      <Card className="space-y-3 p-4 bg-slate-900/80 border-slate-800">
+      <Card className="space-y-3 p-3.5 bg-zinc-900 border-zinc-800">
         <div className="relative">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search note contents..."
-            className="h-9.5 w-full rounded-xl border border-slate-800 bg-slate-950/80 pl-10 pr-4 text-xs text-white placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="h-9 w-full rounded-lg border border-zinc-750 bg-zinc-950 pl-9 pr-3 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
           <FilterChip
             label="All"
             count={chipCounts.all}
@@ -399,13 +398,13 @@ export default function Notes() {
             {isActive && (
               <button
                 onClick={clearAll}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-white cursor-pointer"
+                className="inline-flex items-center gap-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 cursor-pointer"
               >
-                <X className="h-3.5 w-3.5" /> Clear
+                <X className="h-3 w-3" /> Clear
               </button>
             )}
-            <span className="text-xs text-slate-400 font-mono">
-              <span className="font-bold text-white">{filtered.length}</span> /{" "}
+            <span className="text-xs text-zinc-400 font-mono">
+              <span className="font-semibold text-zinc-100">{filtered.length}</span> /{" "}
               {notes?.length ?? 0}
             </span>
           </div>
@@ -414,7 +413,7 @@ export default function Notes() {
 
       {/* Masonry grid */}
       {notes === null ? (
-        <div className="flex justify-center py-16 text-slate-500 text-sm">
+        <div className="flex justify-center py-16 text-zinc-500 text-xs font-mono">
           Loading notes...
         </div>
       ) : filtered.length === 0 ? (
@@ -430,14 +429,14 @@ export default function Notes() {
             action={
               !isActive ? (
                 <Button variant="primary" size="sm" onClick={openNew}>
-                  <Plus className="h-4 w-4" /> Add Note
+                  <Plus className="h-3.5 w-3.5" /> Add Note
                 </Button>
               ) : undefined
             }
           />
         </Card>
       ) : (
-        <div className="columns-1 sm:columns-2 xl:columns-3 gap-4">
+        <div className="columns-1 sm:columns-2 xl:columns-3 gap-3.5">
           {filtered.map((note) => (
             <NoteCard
               key={note._id}
